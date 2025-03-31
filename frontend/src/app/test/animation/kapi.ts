@@ -10,7 +10,7 @@ export class ModelViewerComponent implements AfterViewInit, OnDestroy {
   @ViewChild('canvas') private canvasRef!: ElementRef<HTMLCanvasElement>;
 
   // Path to your GLB model - update this to your actual path
-  private readonly modelPath = '../../../assets/kapi/kapi_shaking.glb';
+  private readonly modelPath = '../../../assets/kapi/kapi_idle.glb';
 
   constructor(private threeService: ThreeService) {}
 
