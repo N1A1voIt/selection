@@ -43,6 +43,6 @@ export const routes: Routes = [
   },
   {
     path: 'recap',
-    loadComponent: () => import('./friendgroup/recaps/recap.page/recap.page.component').then( m => m.RecapPageComponent)
+    loadComponent: () => import('./friendgroup/recaps/recap.page.component').then(m => m.RecapPageComponent)
   },
 ];

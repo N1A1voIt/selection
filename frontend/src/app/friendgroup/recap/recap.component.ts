@@ -12,7 +12,7 @@ import Swiper from 'swiper';
   imports: [CommonModule, IonicModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
-    <div class="w-[250px] h-[350px] relative rounded-lg">
+    <div class="w-[250px] h-[350px] rounded-lg">
       <swiper-container
         #swiperContainer
         class="w-full h-full"
@@ -29,36 +29,6 @@ import Swiper from 'swiper';
         </swiper-slide>
       </swiper-container>
 
-      <!-- Previous/Next Navigation Buttons -->
-      <div class="absolute inset-0 flex items-center justify-between z-10 pointer-events-none">
-<!--        <button-->
-<!--          (click)="prevSlide()"-->
-<!--          class="ml-2 w-8 h-8 rounded-full bg-white bg-opacity-50 hover:bg-opacity-70 flex items-center justify-center pointer-events-auto focus:outline-none"-->
-<!--          aria-label="Previous slide"-->
-<!--        >-->
-<!--          <ion-icon name="chevron-back-outline" class="text-black"></ion-icon>-->
-<!--        </button>-->
-
-<!--        <button-->
-<!--          (click)="nextSlide()"-->
-<!--          class="mr-2 w-8 h-8 rounded-full bg-white bg-opacity-50 hover:bg-opacity-70 flex items-center justify-center pointer-events-auto focus:outline-none"-->
-<!--          aria-label="Next slide"-->
-<!--        >-->
-<!--          <ion-icon name="chevron-forward-outline" class="text-black"></ion-icon>-->
-<!--        </button>-->
-      </div>
-
-<!--      &lt;!&ndash; Pagination buttons &ndash;&gt;-->
-<!--      <div *ngIf="showPagination" class="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-10">-->
-<!--        <button-->
-<!--          *ngFor="let image of images; let i = index"-->
-<!--          (click)="slideTo(i)"-->
-<!--          class="px-2 py-1 text-xs rounded-md transition-colors"-->
-<!--          [ngClass]="currentIndex === i ? 'bg-white text-black' : 'bg-black bg-opacity-50 text-white hover:bg-opacity-70'"-->
-<!--        >-->
-<!--          {{ i + 1 }}-->
-<!--        </button>-->
-<!--      </div>-->
     </div>
   `,
   styles: [`
@@ -74,29 +44,7 @@ export class RecapComponent implements AfterViewInit {
 
   @Input() showPagination: boolean = true;
   @Input() showCaption: boolean = true;
-
-  images = [
-    {
-      url: 'https://picsum.photos/id/1018/800/600',
-      alt: 'Mountain landscape',
-      caption: 'Beautiful mountain view'
-    },
-    {
-      url: 'https://picsum.photos/id/1015/800/600',
-      alt: 'River through mountains',
-      caption: 'Serene river landscape'
-    },
-    {
-      url: 'https://picsum.photos/id/1019/800/600',
-      alt: 'Forest landscape',
-      caption: 'Lush green forest'
-    },
-    {
-      url: 'https://picsum.photos/id/1039/800/600',
-      alt: 'Lake view',
-      caption: 'Tranquil lake at sunset'
-    }
-  ];
+  @Input() images: Array<{url: string, alt?: string, caption?: string}> = [];
 
   currentIndex: number = 0;
   private swiper?: Swiper;
