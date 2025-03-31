@@ -5,6 +5,8 @@ import {SecondDailyPromptComponent} from "./prompts/secondDaily/second.daily.pro
 import {NgIf} from "@angular/common";
 import {HttpClient} from "@angular/common/http";
 import {GroupService} from "../../services/group.service";
+import {ActivatedRoute} from "@angular/router";
+import {doc, docData, Firestore} from "@angular/fire/firestore";
 
 @Component({
   selector: 'app-friend-group',
@@ -19,16 +21,28 @@ import {GroupService} from "../../services/group.service";
   standalone: true,
 })
 export class FriendGroupPage  implements OnInit {
+  groupId: string = '';
+  groupData: any;
+  constructor(private groupService: GroupService,private route: ActivatedRoute, private firestore: Firestore) { }
 
-  constructor(private groupService: GroupService) { }
+  getGroupDetails() {
+    const groupRef = doc(this.firestore, `groups/${this.groupId}`);
+    docData(groupRef).subscribe(data => {
+      this.groupData = data;
+    });
+  }
+
   ngOnInit(){
     console.log("belloooo");
+    this.groupId = this.route.snapshot.paramMap.get('id')!;
+    this.getGroupDetails();
     this.groupService.getPrompt().subscribe({
       next:data =>{
         this.actualPrompt = data.detail;
         this.category = data.theme;
       }
     });
+
     this.groupService.getModifPrompt(this.actualPrompt).subscribe({
       next:data =>{
         this.secondPrompt = data.theme +" "+data.detail;
