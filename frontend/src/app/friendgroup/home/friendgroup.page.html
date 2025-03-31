@@ -1,0 +1,14 @@
+
+<div class="overflow-scroll">
+  <!-- HEADER -->
+  <app-kapi-header [headerContent]="friendgroupName"></app-kapi-header>
+
+  <!-- CONTENT -->
+    <app-first-daily-prompt *ngIf="!everyoneHasUploaded"></app-first-daily-prompt>
+    <app-second-daily-prompt *ngIf="everyoneHasUploaded"></app-second-daily-prompt>
+</div>
+
+<ng-template #friendgroupName>
+  <h2 class="text-2xl text-white font-bold">Groupe d'amis A</h2>
+</ng-template>
+

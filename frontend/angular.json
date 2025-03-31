@@ -7,7 +7,7 @@
       "projectType": "application",
       "schematics": {
         "@ionic/angular-toolkit:page": {
-          "styleext": "scss",
+          "stylext": "scss",
           "standalone": true
         }
       },
@@ -18,13 +18,11 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": {
-              "base": "www",
-              "browser": ""
-            },
+            "outputPath": "www",
             "index": "src/index.html",
             "polyfills": [
-              "src/polyfills.ts"
+              "src/polyfills.ts",
+              "node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
@@ -109,7 +107,7 @@
                 "output": "assets"
               }
             ],
-            "styles": ["src/global.scss", "src/theme/variables.scss"],
+            "styles": ["src/global.scss", "src/theme/variables.scss","node_modules/ionicons/dist/collection/components/icon/icon.css"],
             "scripts": []
           },
           "configurations": {
@@ -129,7 +127,10 @@
     }
   },
   "cli": {
-    "schematicCollections": ["@ionic/angular-toolkit"]
+    "schematicCollections": [
+      "@ionic/angular-toolkit"
+    ],
+    "analytics": "8046e395-3b4d-434f-b06a-7be499de004b"
   },
   "schematics": {
     "@ionic/angular-toolkit:component": {
