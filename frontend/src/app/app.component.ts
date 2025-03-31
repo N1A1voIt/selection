@@ -13,6 +13,7 @@ import {NavbarComponent} from "./navbar/navbar.component";  // Auth imports
   imports: [IonApp, IonRouterOutlet, NavbarComponent],
 })
 export class AppComponent {
+
   constructor(private afAuth: AngularFireAuth, private router: Router) {
     // const firebaseConfig = environment.firebaseConfig;
     // initializeApp(firebaseConfig);
