@@ -1,0 +1,18 @@
+<!-- image-slider.component.html -->
+<ion-content>
+  <div class="h-screen w-full bg-gray-100 flex items-center justify-center">
+    <swiper
+      [config]="swiperConfig"
+      class="w-full h-96"
+    >
+      <ng-template swiperSlide *ngFor="let slide of slides">
+        <div class="swiper-zoom-container relative w-full h-full">
+          <img
+            [src]="slide.image"
+            class="absolute inset-0 w-full h-full object-cover rounded-2xl shadow-xl transform transition-transform duration-300 scale-90 hover:scale-95"
+          />
+        </div>
+      </ng-template>
+    </swiper>
+  </div>
+</ion-content>

@@ -33,6 +33,10 @@
     "@capacitor/local-notifications": "^7.0.0",
     "@capacitor/push-notifications": "^7.0.0",
     "@capacitor/status-bar": "^7.0.0",
+    "@ionic-native/android-permissions": "^5.36.0",
+    "@ionic-native/diagnostic": "^5.36.0",
+    "@ionic-native/file": "^5.36.0",
+    "@ionic-native/media": "^5.36.0",
     "@ionic/angular": "^8.4.3",
     "@ionic/pwa-elements": "^3.3.0",
     "@supabase/supabase-js": "^2.48.1",
@@ -47,6 +51,7 @@
     "ionicons": "^7.4.0",
     "ng-apexcharts": "^1.15.0",
     "rxjs": "~7.8.0",
+    "swiper": "^11.2.6",
     "three": "^0.175.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
