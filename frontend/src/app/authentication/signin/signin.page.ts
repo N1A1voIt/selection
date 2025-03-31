@@ -67,7 +67,7 @@ export class SigninPage implements OnInit {
         let idToken = await user.getIdToken();
         console.log('ID Token:',idToken);
         localStorage.setItem('idToken', JSON.stringify(idToken));
-        this.router.navigate(['/main/watchlist']);
+        this.router.navigate(['/intro']);
       }).catch((error) => {
         console.error('Authentication error:', error);
         alert(error.message);
@@ -95,7 +95,7 @@ export class SigninPage implements OnInit {
         user.getIdToken().then((idToken) => {
           localStorage.setItem('idToken', JSON.stringify(idToken));
         });
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/intro']);
       })
       .catch((error) => {
         console.error('Error during sign-in:', error);
