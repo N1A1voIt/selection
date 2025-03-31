@@ -8,12 +8,12 @@
   </div>
   <div class="flex flex-col w-full gap-5">
     <div class="px-4 w-full">
-      <form action="" class="flex justify-center items-center gap-3 flex-col w-full" (ngSubmit)="signup()" [formGroup]="formGroup">
+      <form action="" class="flex justify-center items-center  gap-3 flex-col w-full" (ngSubmit)="signup()" [formGroup]="formGroup">
         <app-input-d-square class="w-full" label="Your Name" type="text" placeholder="" formControlName="username"></app-input-d-square>
         <app-input-d-square class="w-full" label="Email" type="email" placeholder="" formControlName="email" ></app-input-d-square>
         <app-input-d-square class="w-full" label="Password" type="password" placeholder="" formControlName="password" ></app-input-d-square>
         <app-input-d-square class="w-full" label="Confirm your password" type="password" placeholder="" formControlName="confirmPassword" ></app-input-d-square>
-        <input class="w-full px-5 py-3 bg-primary text-white mt-4"  type="submit">
+        <input class="w-full px-5 rounded-lg py-3 bg-primary text-white mt-4"  type="submit">
       </form>
     </div>
     <div class="flex justify-center items-center gap-6 flex-col w-full">
