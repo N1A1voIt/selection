@@ -14,6 +14,7 @@ import {NavbarComponent} from "./navbar/navbar.component";  // Auth imports
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppComponent {
+
   constructor(private afAuth: AngularFireAuth, private router: Router) {
     // const firebaseConfig = environment.firebaseConfig;
     // initializeApp(firebaseConfig);

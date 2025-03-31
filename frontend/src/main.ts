@@ -14,6 +14,7 @@ import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
 import {getFirestore, provideFirestore} from "@angular/fire/firestore";
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { register as registerSwiperElements } from "swiper/element/bundle";
+import {provideHttpClient} from "@angular/common/http";
 
 registerSwiperElements();
 bootstrapApplication(AppComponent, {
@@ -24,6 +25,7 @@ bootstrapApplication(AppComponent, {
     { provide: FIREBASE_OPTIONS, useValue: environment.firebaseConfig },
     importProvidersFrom(IonicModule.forRoot()),
     provideClientHydration(),
+    provideHttpClient(),
     provideRouter(routes),
     provideFirebaseApp(() => {
       console.log("Initializing Firebase...");

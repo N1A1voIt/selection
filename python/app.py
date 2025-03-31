@@ -96,7 +96,7 @@ def validate_image():
 
         result = {
             "similarity_score": similarity_score,
-            "match": "The image matches the prompt!" if similarity_score > 0.5 else "The image does not match the prompt."
+            "match": "BOOYAA! L'image corréspond bien à mon prompt. Bien joué! Kapi happy :)" if similarity_score > 0.5 else "Oh non, l'image ne corréspond pas à mon prompt. Kapi très triste :("
         }
 
         return jsonify(result)
@@ -107,7 +107,7 @@ def validate_image():
 
 @app.route('/generate-theme', methods=['GET'])
 def generate_theme():
-    res = theme_creator.create_theme();
+    res = theme_creator.create_theme()
     return jsonify(res)
 
 if __name__ == '__main__':

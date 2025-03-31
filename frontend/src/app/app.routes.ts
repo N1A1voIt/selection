@@ -45,4 +45,8 @@ export const routes: Routes = [
     path: 'recap',
     loadComponent: () => import('./friendgroup/recaps/recap.page.component').then(m => m.RecapPageComponent)
   },
+  {
+    path: 'image-editor',
+    loadComponent: () => import('./image-editor/image-editor.page').then( m => m.ImageEditorPage)
+  },
 ];
