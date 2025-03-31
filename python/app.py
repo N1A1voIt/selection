@@ -107,7 +107,7 @@ def validate_image():
 
 @app.route('/generate-theme', methods=['GET'])
 def generate_theme():
-    res = theme_creator.create_theme();
+    res = theme_creator.create_theme()
     return jsonify(res)
 
 if __name__ == '__main__':
