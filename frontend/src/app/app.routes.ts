@@ -30,7 +30,7 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'friend-group',
+    path: 'friend-group/:id',
     loadComponent: () => import('./friendgroup/home/friendgroup.page').then( m => m.FriendGroupPage)
   },
   {

@@ -36,7 +36,6 @@ export class FirstDailyPromptComponent{
     match = "";
     similarity_score= 0;
   };
-
   image: string | null = null; // State variable
   uploadedImageUrl: string | null = null;
 

@@ -22,6 +22,12 @@ export class ListGroupPage implements OnInit {
   userGroups: any[] = [];
   currentUserEmail!: string;
 
+
+  goToGroup(group: any) {
+    // console.log(group);
+    this.router.navigateByUrl('/friend-group/'+group.id); // Navigate to group details page
+  }
+
   constructor(private firestore: Firestore, private auth: Auth,protected router:Router) {
     addIcons({
       arrowBack,
@@ -54,7 +60,7 @@ export class ListGroupPage implements OnInit {
     const groupsRef = collection(this.firestore, 'groups');
     const groupsQuery = query(groupsRef);
 
-    collectionData(groupsQuery).subscribe({
+    collectionData(groupsQuery, { idField: 'id' }).subscribe({
       next: data => {
         this.userGroups = data.filter(group =>
           group['members'].some((member: { email: string; }) => member.email === this.currentUserEmail)
