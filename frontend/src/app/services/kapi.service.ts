@@ -14,10 +14,14 @@ export class ThreeService implements OnDestroy {
   private clock: THREE.Clock = new THREE.Clock();
   private frameId: number | null = null;
   private resizeListener: (() => void) | null = null;
+  private width: number = 150;
+  private height: number = 150;
 
   constructor(private ngZone: NgZone) {}
 
-  public initialize(canvas: ElementRef<HTMLCanvasElement>, modelPath: string): void {
+  public initialize(canvas: ElementRef<HTMLCanvasElement>, modelPath: string, width: number = 150, height: number = 150): void {
+    this.width = width;
+    this.height = height;
     this.setupScene();
     this.setupCamera();
     this.setupRenderer(canvas);
@@ -35,7 +39,7 @@ export class ThreeService implements OnDestroy {
   private setupCamera(): void {
     this.camera = new THREE.PerspectiveCamera(
       35,
-      1,
+      this.width / this.height,
       0.1,
       1000
     );
@@ -48,7 +52,7 @@ export class ThreeService implements OnDestroy {
       antialias: true,
       alpha: true // Enable transparency
     });
-    this.renderer.setSize(150, 150);
+    this.renderer.setSize(this.width, this.height);
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.shadowMap.enabled = true;
     this.renderer.setClearColor(0x000000, 0); // Set clear color with 0 alpha (fully transparent)
@@ -141,9 +145,9 @@ export class ThreeService implements OnDestroy {
   private onWindowResize(): void {
     if (!this.camera || !this.renderer) return;
 
-    this.camera.aspect = 150 / 150;
+    this.camera.aspect = this.width / this.height;
     this.camera.updateProjectionMatrix();
-    this.renderer.setSize(150, 150);
+    this.renderer.setSize(this.width, this.height);
   }
 
   public ngOnDestroy(): void {

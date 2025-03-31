@@ -15,8 +15,8 @@ export const routes: Routes = [
     loadComponent: () => import('./authentication/signup/signup.page').then( m => m.SignupPage)
   },
   {
-    path: 'kapi-test',
-    loadComponent: () => import('./test/animation/kapi').then(m => m.ModelViewerComponent)
+    path: 'friend-group',
+    loadComponent: () => import('./friendgroup/home/friendgroup.page').then( m => m.FriendGroupPage)
   },
-  
+
 ];
