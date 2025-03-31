@@ -32,5 +32,9 @@ export const routes: Routes = [
     path: 'friend-group',
     loadComponent: () => import('./friendgroup/home/friendgroup.page').then( m => m.FriendGroupPage)
   },
+  {
+    path: 'create-group',
+    loadComponent: () => import('./group/create-group/create-group.page').then( m => m.CreateGroupPage)
+  },
 
 ];

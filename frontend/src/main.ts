@@ -27,6 +27,7 @@ bootstrapApplication(AppComponent, {
       console.log("Initializing Firebase...");
       return initializeApp(environment.firebaseConfig);
     }),
+    importProvidersFrom(AngularFirestoreModule),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
   ],
