@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './validation.page.html',
   styleUrls: ['./validation.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonIcon,IonButton, CommonModule, FormsModule]
 })
 export class ValidationPage implements OnInit {
 
