@@ -2,13 +2,13 @@
   <a [routerLink]="['/intro']" [routerLinkActive]="'active'">
     <ion-icon name="home" [ngClass]="{'text-[#b27156]': router.url === '/intro', 'text-[#6b6f57]': router.url !== '/home'}" size="large"></ion-icon>
   </a>
-  <a [routerLink]="['/list-friends']" [routerLinkActive]="'active'">
-    <ion-icon name="person" [ngClass]="{'text-[#b27156]': router.url === '/list-friends', 'text-[#6b6f57]': router.url !== '/profile'}" size="large"></ion-icon>
+  <a [routerLink]="['/create-group']" [routerLinkActive]="'active'">
+    <ion-icon name="person-add" [ngClass]="{'text-[#b27156]': router.url === '/create-group', 'text-[#6b6f57]': router.url !== '/profile'}" size="large"></ion-icon>
   </a>
   <a [routerLink]="['/list-group']" [routerLinkActive]="'active'">
-    <ion-icon name="people" [ngClass]="{'text-[#b27156]': router.url === '/list-group'||'/create-group', 'text-[#6b6f57]': router.url !== '/community'}" size="large"></ion-icon>
+    <ion-icon name="people" [ngClass]="{'text-[#b27156]': router.url === '/list-group', 'text-[#6b6f57]': router.url !== '/community'}" size="large"></ion-icon>
   </a>
   <a [routerLink]="['/recap']" [routerLinkActive]="'active'">
-    <ion-icon name="brush" [ngClass]="{'text-[#b27156]': router.url === '/recap', 'text-[#6b6f57]': router.url !== '/art'}" size="large"></ion-icon>
+    <ion-icon name="grid-outline" [ngClass]="{'text-[#b27156]': router.url === '/recap', 'text-[#6b6f57]': router.url !== '/art'}" size="large"></ion-icon>
   </a>
 </div>

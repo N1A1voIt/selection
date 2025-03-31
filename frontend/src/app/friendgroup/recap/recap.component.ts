@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IonicSlides } from '@ionic/angular';
 import Swiper from 'swiper';
+import {SwiperOptions} from "swiper/types";
 
 @Component({
   selector: 'app-recap',
@@ -44,7 +45,7 @@ export class RecapComponent implements AfterViewInit {
 
   @Input() showPagination: boolean = true;
   @Input() showCaption: boolean = true;
-  @Input() images: Array<{url: string, alt?: string, caption?: string}> = [];
+  @Input() images: Array<{ alt: string; url: any}> = [];
 
   currentIndex: number = 0;
   private swiper?: Swiper;
