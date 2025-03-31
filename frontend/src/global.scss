@@ -13,6 +13,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import Swiper styles */
+@import 'swiper/css';
+@import 'swiper/css/effect-cards';
+
 /* Core CSS required for Ionic components to work properly */
 @import "@ionic/angular/css/core.css";
 

@@ -3,9 +3,10 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () =>
-      import('./authentication/signin/signin.page').then((m) => m.SigninPage),
-    // loadChildren: () => import('./tabs/tabs.routes').then((m) => m.routes),
+    loadComponent: () => import('./friendgroup/home/friendgroup.page').then( m => m.FriendGroupPage)
+    // loadComponent: () =>
+      // import('./authentication/signin/signin.page').then((m) => m.SigninPage),
+     // loadChildren: () => import('./tabs/tabs.routes').then((m) => m.routes),
   },
   {
     path: 'signin',
@@ -41,9 +42,11 @@ export const routes: Routes = [
     loadComponent: () => import('./validation/validation.page').then( m => m.ValidationPage)
   },
   {
+    path: 'recap',
+    loadComponent: () => import('./friendgroup/recaps/recap.page.component').then(m => m.RecapPageComponent)
+  },
+  {
     path: 'image-editor',
     loadComponent: () => import('./image-editor/image-editor.page').then( m => m.ImageEditorPage)
   },
-
-
 ];

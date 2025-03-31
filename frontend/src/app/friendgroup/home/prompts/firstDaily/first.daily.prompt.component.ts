@@ -36,59 +36,6 @@ export class FirstDailyPromptComponent{
   image: string | null = null; // State variable
   uploadedImageUrl: string | null = null;
 
-  mediaRecorder: MediaRecorder | null = null;
-  audioChunks: Blob[] = [];
-  audioUrl: string | null = null;
-  uploadedAudioUrl: string | null = null;
-  score:Score = new class implements Score {
-    match: string="";
-    similarity_score: number=0;
-  };
-
-  async checkMicrophonePermission(): Promise<boolean> {
-    if (!Capacitor.isNativePlatform()) return true; // Skip for web
-
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      stream.getTracks().forEach(track => track.stop()); // Release access
-      return true;
-    } catch (error) {
-      console.error('Microphone access denied:', error);
-      return false;
-    }
-  }
-
-  async startRecording() {
-
-
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      this.mediaRecorder = new MediaRecorder(stream);
-
-      this.audioChunks = [];
-      this.mediaRecorder.ondataavailable = (event) => {
-        this.audioChunks.push(event.data);
-      };
-
-      this.mediaRecorder.onstop = async () => {
-        const audioBlob = new Blob(this.audioChunks, { type: 'audio/wav' });
-        this.audioUrl = URL.createObjectURL(audioBlob);
-
-        // // Upload to Supabase
-        // const fileName = `audio-${Date.now()}.wav`;
-        // const filePath = await this.supabaseService.uploadAudio(audioBlob, fileName);
-        //
-        // if (filePath) {
-        //   this.uploadedAudioUrl = this.supabaseService.getPublicUrl(filePath);
-        // }
-      };
-
-      this.mediaRecorder.start();
-    } catch (error) {
-      console.error('Recording error:', error);
-    }
-  }
-
   async checkCameraPermission(): Promise<boolean> {
     if (!Capacitor.isNativePlatform()) return true; // Skip for web
 

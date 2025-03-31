@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input, numberAttribute} from '@angular/core';
 import { KapiComponent } from "../kapi.component";
 import { Location, NgTemplateOutlet } from '@angular/common';
 import { IonIcon } from "@ionic/angular/standalone";
@@ -18,6 +18,8 @@ import { arrowBack } from 'ionicons/icons';
 })
 export class KapiHeaderComponent {
   @Input() headerContent: any; // Add headerContent input for passing child elements
+  @Input({transform: numberAttribute}) w: number = 300;
+  @Input({transform: numberAttribute}) h: number = 300;
 
   constructor(private location: Location) {
     // Register the arrow-back icon
