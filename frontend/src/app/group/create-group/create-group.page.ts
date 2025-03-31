@@ -46,6 +46,13 @@ export class CreateGroupPage implements OnInit {
       addCircleOutline
     })
   }
+  toggleSelection(user: any) {
+    if (this.showButtons) {
+      console.log("Bebna boy")
+      user.selected = !user.selected;
+    }
+  }
+
 
   ngOnInit() {
     this.getUsers().subscribe({
