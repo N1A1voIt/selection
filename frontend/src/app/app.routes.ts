@@ -43,7 +43,11 @@ export const routes: Routes = [
   {
     path: 'image-editor',
     loadComponent: () => import('./image-editor/image-editor.page').then( m => m.ImageEditorPage)
+  },  {
+    path: 'list-group',
+    loadComponent: () => import('./group/list-group/list-group.page').then( m => m.ListGroupPage)
   },
+
 
 
 ];
