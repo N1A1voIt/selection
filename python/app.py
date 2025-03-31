@@ -8,6 +8,7 @@ from flask_cors import CORS
 from transformers import CLIPProcessor, CLIPModel
 
 from audio import audio
+from theme import theme_creator
 
 app = Flask(__name__)
 app.config['ALLOWED_EXTENSIONS'] = {'wav'}
@@ -36,7 +37,11 @@ def upload_file():
 
     overlayed = audio.overlay_audio(og_audio, to_add)
 
-    return jsonify({"success": overlayed})
+    try:
+        overlayed = audio.overlay_audio(og_audio, to_add)
+        return jsonify({"success": True, "result": overlayed})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/api', methods=['GET'])
 def get_data():
@@ -98,6 +103,12 @@ def validate_image():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 400
+
+
+@app.route('/generate-theme', methods=['GET'])
+def generate_theme():
+    res = theme_creator.create_theme();
+    return jsonify(res)
 
 if __name__ == '__main__':
     app.run(debug=True)
