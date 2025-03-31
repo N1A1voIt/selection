@@ -53,6 +53,7 @@
     "photoeditorsdk": "^5.19.3",
     "rollup": "^4.38.0",
     "rxjs": "~7.8.0",
+    "swiper": "^11.2.6",
     "three": "^0.175.0",
     "tslib": "^2.3.0",
     "tui-image-editor": "^3.15.3",

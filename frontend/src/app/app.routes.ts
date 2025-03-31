@@ -1,3 +1,4 @@
+
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
@@ -43,7 +44,12 @@ export const routes: Routes = [
   {
     path: 'image-editor',
     loadComponent: () => import('./image-editor/image-editor.page').then( m => m.ImageEditorPage)
-  },  {
+  },
+  {
+    path: 'recap',
+    loadComponent: () => import('./friendgroup/recaps/recap.page.component').then(m => m.RecapPageComponent)
+  },
+  {
     path: 'list-group',
     loadComponent: () => import('./group/list-group/list-group.page').then( m => m.ListGroupPage)
   },
@@ -51,3 +57,4 @@ export const routes: Routes = [
 
 
 ];
+

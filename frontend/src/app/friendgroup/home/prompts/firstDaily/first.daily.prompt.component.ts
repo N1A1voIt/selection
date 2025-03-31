@@ -9,6 +9,7 @@ import { createClient } from '@supabase/supabase-js';
 import {GroupService} from "../../../../services/group.service";
 import {data} from "autoprefixer";
 import {Score} from "../../../../interfaces/theme";
+import { Router } from '@angular/router';
 const supabase = createClient('https://raurqxjoiivhjjbhoojn.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJhdXJxeGpvaWl2aGpqYmhvb2puIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MzQzMDEzNSwiZXhwIjoyMDU5MDA2MTM1fQ.5CBJ0_3fOk0Ze06SU5w9-1yVkHQdq8nRzSbNZAhnhU4',
   {
@@ -34,59 +35,6 @@ export class FirstDailyPromptComponent{
 
   image: string | null = null; // State variable
   uploadedImageUrl: string | null = null;
-
-  mediaRecorder: MediaRecorder | null = null;
-  audioChunks: Blob[] = [];
-  audioUrl: string | null = null;
-  uploadedAudioUrl: string | null = null;
-  score:Score = new class implements Score {
-    match: string="";
-    similarity_score: number=0;
-  };
-
-  async checkMicrophonePermission(): Promise<boolean> {
-    if (!Capacitor.isNativePlatform()) return true; // Skip for web
-
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      stream.getTracks().forEach(track => track.stop()); // Release access
-      return true;
-    } catch (error) {
-      console.error('Microphone access denied:', error);
-      return false;
-    }
-  }
-
-  async startRecording() {
-
-
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      this.mediaRecorder = new MediaRecorder(stream);
-
-      this.audioChunks = [];
-      this.mediaRecorder.ondataavailable = (event) => {
-        this.audioChunks.push(event.data);
-      };
-
-      this.mediaRecorder.onstop = async () => {
-        const audioBlob = new Blob(this.audioChunks, { type: 'audio/wav' });
-        this.audioUrl = URL.createObjectURL(audioBlob);
-
-        // // Upload to Supabase
-        // const fileName = `audio-${Date.now()}.wav`;
-        // const filePath = await this.supabaseService.uploadAudio(audioBlob, fileName);
-        //
-        // if (filePath) {
-        //   this.uploadedAudioUrl = this.supabaseService.getPublicUrl(filePath);
-        // }
-      };
-
-      this.mediaRecorder.start();
-    } catch (error) {
-      console.error('Recording error:', error);
-    }
-  }
 
   async checkCameraPermission(): Promise<boolean> {
     if (!Capacitor.isNativePlatform()) return true; // Skip for web
@@ -125,6 +73,7 @@ export class FirstDailyPromptComponent{
       const fileName = `photo-${Date.now()}.jpg`;
       formData.append('image', fileBlob, fileName);
       formData.append('prompt', "Un chat");
+      let imageOk = false;
 
       this.groupService.validateImage(formData).subscribe({
         next: async (result) => {
@@ -133,6 +82,7 @@ export class FirstDailyPromptComponent{
           this.score.match = result.match;
 
           if (this.score.similarity_score > 0.5) {
+            imageOk = true;
             console.log(`${this.score.similarity_score}%`);
             console.log("match");
 
@@ -153,6 +103,14 @@ export class FirstDailyPromptComponent{
             console.log(`${this.score.match}%`);
             console.log(`${this.score.similarity_score}%`);
           }
+          console.log(result)
+          await this.router.navigate(['/validation'], {
+            state: {
+              image: this.image,
+              score: result,
+              isImageOkay: imageOk,
+            },
+          });
         }
       });
 
@@ -170,7 +128,7 @@ export class FirstDailyPromptComponent{
     }
   }
 
-  constructor(private groupService:GroupService) {
+  constructor(private groupService:GroupService,private router:Router) {
     addIcons({ 'camera': camera });
     addIcons({'microphone': mic})
   }

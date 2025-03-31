@@ -13,8 +13,10 @@ import { initializeApp } from "firebase/app";
 import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
 import {getFirestore, provideFirestore} from "@angular/fire/firestore";
 import { provideAuth, getAuth } from '@angular/fire/auth';
+import { register as registerSwiperElements } from "swiper/element/bundle";
 import {provideHttpClient} from "@angular/common/http";
 
+registerSwiperElements();
 bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
