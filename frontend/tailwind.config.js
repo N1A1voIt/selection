@@ -10,6 +10,7 @@ module.exports = {
         secondary: '#33A1FF', // Another custom color
         myColor: '#123456',   // You can name your color whatever you want
       },
+
     },
   },
   plugins: [],
