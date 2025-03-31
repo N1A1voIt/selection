@@ -1,10 +1,15 @@
 <div class="">
   <div class="flex flex-row gap-4 relative items-center h-[100px] w-full bg-mocha p-5 rounded-b-3xl">
     <div class="controls flex gap-4 absolute  bottom-2">
-      <div class="w-[50px] h-[50px] overflow-hidden rounded-full flex justify-center items-center">
-        <input type="color" class="w-[60px] h-[60px] rounded-full border-none " [(ngModel)]="drawColor">
-      </div>
-<!--      <div class="">-->
+      <label
+        for="col-pick"
+        class="w-[50px] h-[50px] overflow-hidden rounded-full flex justify-center items-center"
+        [ngStyle]="{ 'background-color': drawColor }">
+      </label>
+      <input type="color" class="w-[60px] h-[60px] rounded-full border-none hidden" id="col-pick" [(ngModel)]="drawColor">
+
+
+      <!--      <div class="">-->
 <!--        <input type="range" min="1" max="50" [(ngModel)]="brushSize">-->
 <!--      </div>-->
       <div (click)="saveImage()" class="border border-white bg-primary rounded-full w-[50px] h-[50px] flex justify-center items-center">

@@ -12,6 +12,7 @@ import {checkmarkOutline, cloudUploadOutline} from "ionicons/icons";
 import {createClient} from "@supabase/supabase-js";
 import {GroupService} from "../services/group.service";
 import {Router} from "@angular/router";
+import {NgStyle} from "@angular/common";
 
 const supabase = createClient('https://raurqxjoiivhjjbhoojn.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJhdXJxeGpvaWl2aGpqYmhvb2puIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MzQzMDEzNSwiZXhwIjoyMDU5MDA2MTM1fQ.5CBJ0_3fOk0Ze06SU5w9-1yVkHQdq8nRzSbNZAhnhU4',
@@ -29,7 +30,8 @@ const supabase = createClient('https://raurqxjoiivhjjbhoojn.supabase.co',
   standalone: true,
   imports: [
     FormsModule,
-    IonIcon
+    IonIcon,
+    NgStyle
 
   ]
 })
