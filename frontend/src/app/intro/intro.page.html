@@ -3,15 +3,13 @@
        style="background-image: url('/assets/imgs/bg.jpeg'); background-size: cover; background-position: center;">
     <div class="relative bg-primary w-[50px] h-[50px] right-0 py-2 px-2
      rounded-full text-white top-3 left-3 flex justify-center items-center">
+      <a [routerLink]="['/list-friends']" [routerLinkActive]="'active'">
       <ion-icon name="arrow-forward-outline" class="text-white text-xl" size="medium"></ion-icon>
-
-
-<!--      <ng-template #friendgroupName>-->
-<!--        <h2 class="text-2xl text-white">Friendgroup A</h2>-->
-<!--      </ng-template>-->
+      </a>
     </div>
-    <div class="p-2 absolute top-[50%] -translate-y-[55%] ">
-      <app-kapi width="300" height="300" modelPath="../../assets/kapi/kapi_idle.glb"></app-kapi>
+    <p class="text-blue-950 text-center px-4 pt-8">Hello ! Moi, c'est Kapi. Prêt à te faire des amis ?</p>
+    <div class="absolute top-[50%] -translate-y-[55%] ">
+      <app-kapi width="300" height="300" modelPath="../../assets/kapi/kapi_wave.glb"></app-kapi>
     </div>
   </div>
 

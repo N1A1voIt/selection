@@ -32,9 +32,17 @@ export class FirstDailyPromptComponent{
   @Input() actualPrompt: string = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper';
   @Input() category: string = 'Photographie et dessin';
   @Input() categoryId: string = 'photo';
-  score:any;
+  score: Score = new class implements Score {
+    match = "";
+    similarity_score= 0;
+  };
   image: string | null = null; // State variable
   uploadedImageUrl: string | null = null;
+
+  score:Score = new class implements Score {
+    match: string="";
+    similarity_score: number=0;
+  };
 
   async checkCameraPermission(): Promise<boolean> {
     if (!Capacitor.isNativePlatform()) return true; // Skip for web
