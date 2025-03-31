@@ -17,5 +17,9 @@ export const routes: Routes = [
     path: 'intro',
     loadComponent: () => import('./intro/intro.page').then( m => m.IntroPage)
   },
+  {
+    path: 'create-group',
+    loadComponent: () => import('./group/create-group/create-group.page').then( m => m.CreateGroupPage)
+  },
 
 ];
