@@ -9,8 +9,10 @@ import {importProvidersFrom} from "@angular/core";
 import {IonicModule} from "@ionic/angular";
 import {FIREBASE_OPTIONS} from "@angular/fire/compat";
 import {provideFirebaseApp} from "@angular/fire/app";
-import firebase from "firebase/compat";
-import initializeApp = firebase.initializeApp;
+import { initializeApp } from "firebase/app";
+import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
+import {getFirestore, provideFirestore} from "@angular/fire/firestore";
+import { provideAuth, getAuth } from '@angular/fire/auth';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -25,5 +27,7 @@ bootstrapApplication(AppComponent, {
       console.log("Initializing Firebase...");
       return initializeApp(environment.firebaseConfig);
     }),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
   ],
 });

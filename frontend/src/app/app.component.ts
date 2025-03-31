@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
-import {firebase} from "firebaseui-angular";
-import {AngularFireAuth} from "@angular/fire/compat/auth";
-import {Router} from "@angular/router";
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Router } from '@angular/router';
+// import { initializeApp } from 'firebase/app';  // Firebase initialization
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import {environment} from "../environments/environment";  // Auth imports
 
 @Component({
   selector: 'app-root',
@@ -10,32 +12,36 @@ import {Router} from "@angular/router";
   imports: [IonApp, IonRouterOutlet],
 })
 export class AppComponent {
-  constructor(private afAuth: AngularFireAuth,private router: Router,) {}
+  constructor(private afAuth: AngularFireAuth, private router: Router) {
+    // const firebaseConfig = environment.firebaseConfig;
+    // initializeApp(firebaseConfig);
+  }
+
   uiConfig = {
     signInSuccessUrl: '/',
     signInOptions: [
-      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      GoogleAuthProvider.PROVIDER_ID,  // Google sign-in option
     ],
     tosUrl: 'https://www.google.com/intl/en/policies/terms/',
     privacyPolicyUrl: 'https://www.google.com/intl/en/policies/privacy/',
   };
 
   signInWithGoogle() {
-    const provider = new firebase.auth.GoogleAuthProvider();
+    const provider = new GoogleAuthProvider();
     provider.addScope('email');
     this.handleAuthPopup(provider);
   }
-  // @ts-ignore
-  private handleAuthPopup(provider: firebase.auth.AuthProvider) {
-    this.afAuth.signInWithPopup(provider)
+
+  private handleAuthPopup(provider: GoogleAuthProvider) {
+    const auth = getAuth();  // Get Auth instance after initializing the app
+    signInWithPopup(auth, provider)  // Perform the popup sign-in
       .then((result) => {
         console.log(result.user);
         return result.user?.getIdToken();
       })
       .then((idToken) => {
         console.log('ID Token:', idToken);
-
-        localStorage.setItem('idToken', JSON.stringify(idToken));
+        localStorage.setItem('idToken', JSON.stringify(idToken));  // Store the token
         this.router.navigate(['/main/watchlist']);
       })
       .catch((error) => {
