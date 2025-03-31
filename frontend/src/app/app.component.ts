@@ -4,12 +4,13 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 // import { initializeApp } from 'firebase/app';  // Firebase initialization
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import {environment} from "../environments/environment";  // Auth imports
+import {environment} from "../environments/environment";
+import {NavbarComponent} from "./navbar/navbar.component";  // Auth imports
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  imports: [IonApp, IonRouterOutlet],
+  imports: [IonApp, IonRouterOutlet, NavbarComponent],
 })
 export class AppComponent {
   constructor(private afAuth: AngularFireAuth, private router: Router) {

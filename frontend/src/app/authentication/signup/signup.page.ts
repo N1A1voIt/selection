@@ -20,7 +20,7 @@ import {InputDSquareComponent} from "../../shared/input-d-square/input-d-square.
 import {ioniconContent} from "ionicons/dist/types/components/icon/request";
 import {addIcons} from "ionicons";
 import {logoFacebook, logoGoogle, logoTwitter} from "ionicons/icons";
-
+import { getFirestore, doc, setDoc, getDoc } from "@angular/fire/firestore";
 
 @Component({
   selector: 'app-signup',
@@ -67,11 +67,12 @@ export class SignupPage implements OnInit {
     signInWithPopup(auth, provider)
       .then((result) => {
         console.log(result.user);
-        return result.user?.getIdToken();
+        return result.user;
       })
-      .then((idToken) => {
-        console.log('ID Token:', idToken);
-        localStorage.setItem('idToken', JSON.stringify(idToken));
+      .then(async (user) => {
+        await this.storeUserData(user);
+        console.log('ID Token:', user.getIdToken());
+        localStorage.setItem('idToken', JSON.stringify(user.getIdToken()));
         this.router.navigate(['/main/watchlist']);
       })
       .catch((error) => {
@@ -99,6 +100,7 @@ export class SignupPage implements OnInit {
         console.error('Error during signup:', error);
         alert('Error during signup. Please try again.');
       });
+
   }
 
   private updateUserProfile(user: any) {
@@ -111,34 +113,36 @@ export class SignupPage implements OnInit {
   }
 
   private checkUsernameAvailability(user: any) {
-    const db = getDatabase();
-    const usernameRef = databaseRef(db, 'usernames/' + this.formGroup.value.username);
-    return get(usernameRef)
+    const db = getFirestore();
+    const usernameRef = doc(db, "usernames", this.formGroup.value.username);
+
+    return getDoc(usernameRef)
       .then((snapshot) => {
         if (snapshot.exists()) {
-          alert('Username is already taken, please choose another.');
-          throw new Error('Username taken');
+          alert("Username is already taken, please choose another.");
+          throw new Error("Username taken");
         } else {
-          set(usernameRef, user.uid);
-          return user;
+          return setDoc(usernameRef, { uid: user.uid }).then(() => user);
         }
       })
       .catch((error) => {
-        console.error('Error checking username availability:', error);
+        console.error("Error checking username availability:", error);
         throw error;
       });
   }
 
   private storeUserData(user: any) {
-    const db = getDatabase();
-    // const usersRef = databaseRef(db, 'users/' + userId);
-    return set(databaseRef(db, 'users/' + user.uid), {
-      username: this.formGroup.value.username,
-      email: this.formGroup.value.email,
-    }).catch((error) => {
-      console.error('Error storing user data:', error);
-      throw error;
-    });
+    const db = getFirestore();
+    const userRef = doc(db, "users", user.uid);
+    return setDoc(userRef, {
+      username: user.displayName,
+      email: user.email,
+    })
+      .then(() => console.log("User data stored successfully"))
+      .catch((error) => {
+        console.error("Error storing user data:", error);
+        throw error;
+      });
   }
 
 }
