@@ -1,19 +1,49 @@
-<canvas #canvas
-        (mousedown)="startDrawing($event)"
-        (mousemove)="draw($event)"
-        (mouseup)="stopDrawing()"
-        (mouseleave)="stopDrawing()"
-        (touchstart)="startDrawing($event)"
-        (touchmove)="draw($event)"
-        (touchend)="stopDrawing()"
-        class="w-full h-full"
->
-</canvas>
-
-<div class="controls">
-  <input type="color" [(ngModel)]="drawColor">
-  <input type="range" min="1" max="50" [(ngModel)]="brushSize">
-  <button (click)="clearCanvas()">Clear</button>
-  <button (click)="saveImage()">Save</button>
-  <input type="file" (change)="loadImage($event)" accept="image/*">
+<div class="">
+  <div class="flex flex-row gap-4 relative items-center h-[100px] w-full bg-mocha p-5 rounded-b-3xl">
+    <div class="controls flex gap-4 absolute  bottom-2">
+      <div class="w-[50px] h-[50px] overflow-hidden rounded-full flex justify-center items-center">
+        <input type="color" class="w-[60px] h-[60px] rounded-full border-none " [(ngModel)]="drawColor">
+      </div>
+<!--      <div class="">-->
+<!--        <input type="range" min="1" max="50" [(ngModel)]="brushSize">-->
+<!--      </div>-->
+      <div (click)="saveImage()" class="border border-white bg-primary rounded-full w-[50px] h-[50px] flex justify-center items-center">
+        <ion-icon name="checkmark-outline" size="large" class="text-white"></ion-icon>
+      </div>
+<!--      <button (click)="saveImage()">Save</button>-->
+      <label for="file" class=" border border-white bg-primary rounded-full w-[50px] h-[50px] flex justify-center items-center">
+        <ion-icon name="cloud-upload-outline" size="large" class="text-white"></ion-icon>
+      </label>
+      <input type="file" class="hidden" id="file" (change)="loadImage($event)" accept="image/*">
+    </div>
+  </div>
+  <div class="flex items-center space-x-3 w-full p-4">
+    <div
+      class="w-16 h-16 rounded-full bg-[#fdf6f2] flex justify-center items-center"
+    >
+      <img src="assets/imgs/img.png" class="w-12 h-12 rounded-lg" />
+    </div>
+    <div
+      class="bg-[#e8d5cd] text-sm text-gray-700 p-3 rounded-lg relative w-3/4"
+    >
+      <div
+        class="absolute -left-3 top-1/2 transform -translate-y-1/2 border-l-[10px] border-l-transparent border-r-[10px] border-r-[#e8d5cd] border-t-[10px] border-t-transparent"
+      ></div>
+      My prompt remains here
+    </div>
+  </div>
+  <div class=" w-full h-[70vh] overflow-hidden mt-5 p-4">
+    <canvas #canvas width="400" height="600" class="rounded-3xl bg-gray-50"
+            (mousedown)="startDrawing($event)"
+            (mousemove)="draw($event)"
+            (mouseup)="stopDrawing()"
+            (mouseleave)="stopDrawing()"
+            (touchstart)="startDrawing($event)"
+            (touchmove)="draw($event)"
+            (touchend)="stopDrawing()"
+    >
+    </canvas>
+  </div>
 </div>
+
+

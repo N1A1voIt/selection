@@ -6,6 +6,9 @@ import {
   ElementRef,
 } from '@angular/core';
 import {FormsModule} from "@angular/forms";
+import {IonIcon} from "@ionic/angular/standalone";
+import {addIcons} from "ionicons";
+import {checkmarkOutline, cloudUploadOutline} from "ionicons/icons";
 
 
 @Component({
@@ -14,99 +17,148 @@ import {FormsModule} from "@angular/forms";
   styleUrls: ['./image-editor.page.scss'],
   standalone: true,
   imports: [
-    FormsModule
+    FormsModule,
+    IonIcon
 
   ]
 })
 export class ImageEditorPage implements AfterViewInit {
-  @ViewChild('canvas') canvasRef!: ElementRef<HTMLCanvasElement>;
-  private ctx!: CanvasRenderingContext2D;
+  @ViewChild('canvas', { static: false }) canvasRef!: ElementRef<HTMLCanvasElement>;
+  private ctx!: CanvasRenderingContext2D | null;
   private isDrawing = false;
-  private lastX = 0;
-  private lastY = 0;
-  drawColor = '#000000'; // Default color
-  brushSize = 5; // Default brush size
+  private isPanning = false;
+  private startX = 0;
+  private startY = 0;
+  private translateX = 0;
+  private translateY = 0;
+  private lastTranslateX = 0;
+  private lastTranslateY = 0;
+  private image = new Image();
+  public drawColor: string = '#000000';
+  public brushSize: number = 5;
 
-  ngAfterViewInit() {
-    const canvas = this.canvasRef.nativeElement;
-    this.ctx = canvas.getContext('2d')!;
-    this.ctx.lineCap = 'round';
-    this.ctx.strokeStyle = this.drawColor;
-    this.ctx.lineWidth = this.brushSize;
+  constructor() {
+    addIcons({
+      checkmarkOutline,cloudUploadOutline
+    })
   }
 
-  startDrawing(e: MouseEvent | TouchEvent) {
+  ngAfterViewInit(): void {
+    const canvas = this.canvasRef.nativeElement;
+    this.ctx = canvas.getContext('2d');
+
+    if (this.ctx) {
+      this.ctx.fillStyle = 'white';
+      this.ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    // Prevent scrolling when touching the canvas
+    canvas.addEventListener('touchmove', (event) => event.preventDefault(), { passive: false });
+  }
+
+  startDrawing(event: MouseEvent | TouchEvent) {
+    const touch = event instanceof TouchEvent ? event.touches[0] : event;
+    const { offsetX, offsetY } = this.getCoordinates(touch);
+
+    if (event instanceof TouchEvent && event.touches.length > 1) {
+      // Multi-touch detected (for panning)
+      this.isPanning = true;
+      this.startX = offsetX;
+      this.startY = offsetY;
+      return;
+    }
+
     this.isDrawing = true;
-    const pos = this.getCanvasCoordinates(e);
-    [this.lastX, this.lastY] = [pos.x, pos.y];
+    if (this.ctx) {
+      this.ctx.beginPath();
+      this.ctx.moveTo(offsetX - this.translateX, offsetY - this.translateY);
+      this.ctx.lineWidth = this.brushSize;
+      this.ctx.strokeStyle = this.drawColor;
+      this.ctx.lineCap = 'round';
+    }
   }
 
-  draw(e: MouseEvent | TouchEvent) {
-    if (!this.isDrawing) return;
+  draw(event: MouseEvent | TouchEvent) {
+    if (!this.ctx) return;
 
-    const pos = this.getCanvasCoordinates(e);
+    const touch = event instanceof TouchEvent ? event.touches[0] : event;
+    const { offsetX, offsetY } = this.getCoordinates(touch);
 
-    this.ctx.beginPath();
-    this.ctx.moveTo(this.lastX, this.lastY);
-    this.ctx.lineTo(pos.x, pos.y);
-    this.ctx.strokeStyle = this.drawColor;
-    this.ctx.lineWidth = this.brushSize;
-    this.ctx.stroke();
-
-    [this.lastX, this.lastY] = [pos.x, pos.y];
-  }
-
-  private getCanvasCoordinates(e: MouseEvent | TouchEvent): { x: number; y: number } {
-    const canvas = this.canvasRef.nativeElement;
-    const rect = canvas.getBoundingClientRect();
-
-    if (e instanceof TouchEvent) {
-      const touch = e.touches[0];
-      return {
-        x: touch.clientX - rect.left,
-        y: touch.clientY - rect.top
-      };
-    } else {
-      return {
-        x: e.offsetX,
-        y: e.offsetY
-      };
+    if (this.isPanning && event instanceof TouchEvent && event.touches.length > 1) {
+      // Move the image
+      this.translateX = this.lastTranslateX + (offsetX - this.startX);
+      this.translateY = this.lastTranslateY + (offsetY - this.startY);
+      this.redrawCanvas();
+    } else if (this.isDrawing) {
+      // Draw on the canvas
+      this.ctx.lineTo(offsetX - this.translateX, offsetY - this.translateY);
+      this.ctx.stroke();
     }
   }
 
   stopDrawing() {
     this.isDrawing = false;
+    this.isPanning = false;
+    this.lastTranslateX = this.translateX;
+    this.lastTranslateY = this.translateY;
+    if (this.ctx) this.ctx.closePath();
   }
 
   clearCanvas() {
-    this.ctx.clearRect(0, 0, this.canvasRef.nativeElement.width,
-      this.canvasRef.nativeElement.height);
+    const canvas = this.canvasRef.nativeElement;
+    if (this.ctx) {
+      this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+      this.ctx.fillStyle = 'white';
+      this.ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+    this.translateX = this.translateY = this.lastTranslateX = this.lastTranslateY = 0;
   }
 
   saveImage() {
-    const dataUrl = this.canvasRef.nativeElement.toDataURL('image/png');
+    const canvas = this.canvasRef.nativeElement;
+    const image = canvas.toDataURL('image/png');
     const link = document.createElement('a');
-    link.download = 'modified_image.png';
-    link.href = dataUrl;
+    link.href = image;
+    link.download = 'drawing.png';
     link.click();
   }
 
   loadImage(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
-      const file = input.files[0];
       const reader = new FileReader();
-      reader.onload = (e) => {
-        const img = new Image();
-        img.onload = () => {
-          this.canvasRef.nativeElement.width = img.width;
-          this.canvasRef.nativeElement.height = img.height;
-          this.ctx.drawImage(img, 0, 0);
+      reader.onload = () => {
+        this.image.src = reader.result as string;
+        this.image.onload = () => {
+          this.translateX = this.translateY = 0;
+          this.lastTranslateX = this.lastTranslateY = 0;
+          this.redrawCanvas();
         };
-        img.src = e.target?.result as string;
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(input.files[0]);
     }
   }
-}
 
+  private redrawCanvas() {
+    const canvas = this.canvasRef.nativeElement;
+    if (!this.ctx) return;
+
+    this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+    this.ctx.fillStyle = 'white';
+    this.ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    this.ctx.save();
+    this.ctx.translate(this.translateX, this.translateY);
+    this.ctx.drawImage(this.image, 0, 0, canvas.width, canvas.height);
+    this.ctx.restore();
+  }
+
+  private getCoordinates(event: MouseEvent | Touch) {
+    const canvas = this.canvasRef.nativeElement;
+    const rect = canvas.getBoundingClientRect();
+    return {
+      offsetX: event.clientX - rect.left,
+      offsetY: event.clientY - rect.top,
+    };
+  }
+}
