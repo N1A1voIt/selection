@@ -40,10 +40,6 @@ export class FirstDailyPromptComponent{
   image: string | null = null; // State variable
   uploadedImageUrl: string | null = null;
 
-  score:Score = new class implements Score {
-    match: string="";
-    similarity_score: number=0;
-  };
 
   async checkCameraPermission(): Promise<boolean> {
     if (!Capacitor.isNativePlatform()) return true; // Skip for web
