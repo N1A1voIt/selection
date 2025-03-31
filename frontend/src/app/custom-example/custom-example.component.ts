@@ -19,8 +19,8 @@ export class CustomExampleComponent implements AfterViewInit {
   private isDrawing = false;
   private lastX = 0;
   private lastY = 0;
-  drawColor = '#000000'; // Default color
-  brushSize = 5; // Default brush size
+  drawColor = '#000000';
+  brushSize = 5;
 
   ngAfterViewInit() {
     const canvas = this.canvasRef.nativeElement;
