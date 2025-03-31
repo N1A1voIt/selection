@@ -89,14 +89,14 @@ def validate_image():
         image_file = request.files['image']
         prompt = request.form['prompt']
 
-        image_path = f"tmp/{image_file.filename}"
+        image_path = f"/tmp/{image_file.filename}"
         image_file.save(image_path)
 
         similarity_score = validate_image_with_prompt(image_path, prompt)
 
         result = {
             "similarity_score": similarity_score,
-            "match": "The image matches the prompt!" if similarity_score > 0.5 else "The image does not match the prompt."
+            "match": "BOOYAA! L'image corréspond bien à mon prompt. Bien joué! Kapi happy :)" if similarity_score > 0.5 else "Oh non, l'image ne corréspond pas à mon prompt. Kapi très triste :("
         }
 
         return jsonify(result)

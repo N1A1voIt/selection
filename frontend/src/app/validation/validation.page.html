@@ -19,12 +19,12 @@
         <path d="M21 0H283V83H21V0Z" fill="#D9D9D9" />
         <path d="M0 42L21 30V52L0 42Z" fill="#D9D9D9" />
       </svg>
-      <span class="relative z-10 left-[30px]">Voici une réponse</span>
+      <span class="relative z-10 left-[30px]">{{score?.match}}</span>
     </section>
   </article>
 
   <article class="flex flex-col pt-[50px] gap-10">
-    <img src="assets/imgs/kpi-full.jfif" alt="" class="w-[250px] rounded-3xl" />
+    <img [src]="image || 'assets/imgs/kpi-full.jfif'" alt="" class="w-[250px] rounded-3xl" />
     <button
       class="w-[250px] px-5 py-2.5 bg-[#b27156] border-none rounded-2xl text-white"
     >

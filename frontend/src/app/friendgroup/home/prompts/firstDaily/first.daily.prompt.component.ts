@@ -9,6 +9,7 @@ import { createClient } from '@supabase/supabase-js';
 import {GroupService} from "../../../../services/group.service";
 import {data} from "autoprefixer";
 import {Score} from "../../../../interfaces/theme";
+import { Router } from '@angular/router';
 const supabase = createClient('https://raurqxjoiivhjjbhoojn.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJhdXJxeGpvaWl2aGpqYmhvb2puIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MzQzMDEzNSwiZXhwIjoyMDU5MDA2MTM1fQ.5CBJ0_3fOk0Ze06SU5w9-1yVkHQdq8nRzSbNZAhnhU4',
   {
@@ -125,6 +126,7 @@ export class FirstDailyPromptComponent{
       const fileName = `photo-${Date.now()}.jpg`;
       formData.append('image', fileBlob, fileName);
       formData.append('prompt', "Un chat");
+      let imageOk = false;
 
       this.groupService.validateImage(formData).subscribe({
         next: async (result) => {
@@ -133,6 +135,7 @@ export class FirstDailyPromptComponent{
           this.score.match = result.match;
 
           if (this.score.similarity_score > 0.5) {
+            imageOk = true;
             console.log(`${this.score.similarity_score}%`);
             console.log("match");
 
@@ -153,6 +156,14 @@ export class FirstDailyPromptComponent{
             console.log(`${this.score.match}%`);
             console.log(`${this.score.similarity_score}%`);
           }
+          console.log(result)
+          await this.router.navigate(['/validation'], {
+            state: {
+              image: this.image,
+              score: result,
+              isImageOkay: imageOk,
+            },
+          });
         }
       });
 
@@ -170,7 +181,7 @@ export class FirstDailyPromptComponent{
     }
   }
 
-  constructor(private groupService:GroupService) {
+  constructor(private groupService:GroupService,private router:Router) {
     addIcons({ 'camera': camera });
     addIcons({'microphone': mic})
   }
