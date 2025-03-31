@@ -4,13 +4,13 @@ import {
   brush,
   brushOutline,
   create,
-  createOutline,
+  createOutline, gridOutline,
   home,
   homeOutline,
   logoFacebook,
   logoGoogle,
   logoTwitter, people,
-  peopleOutline, person,
+  peopleOutline, person, personAdd,
   personOutline
 } from "ionicons/icons";
 import {IonIcon} from "@ionic/angular/standalone";
@@ -40,7 +40,9 @@ export class NavbarComponent {
       personOutline,
       peopleOutline,
       brushOutline,
-      brush
+      brush,
+      personAdd,
+      gridOutline
     })
   }
 
