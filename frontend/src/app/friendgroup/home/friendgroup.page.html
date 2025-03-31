@@ -5,7 +5,7 @@
 
   <!-- CONTENT -->
     <app-first-daily-prompt [actualPrompt]="actualPrompt" [category]="category" *ngIf="!everyoneHasUploaded"></app-first-daily-prompt>
-    <app-second-daily-prompt *ngIf="everyoneHasUploaded"></app-second-daily-prompt>
+    <app-second-daily-prompt [actualPrompt]="secondPrompt" *ngIf="everyoneHasUploaded"></app-second-daily-prompt>
 </div>
 
 <ng-template #friendgroupName>

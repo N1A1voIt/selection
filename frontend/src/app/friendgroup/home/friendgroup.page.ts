@@ -29,8 +29,14 @@ export class FriendGroupPage  implements OnInit {
         this.category = data.theme;
       }
     });
+    this.groupService.getModifPrompt(this.actualPrompt).subscribe({
+      next:data =>{
+        this.secondPrompt = data.theme +" "+data.detail;
+      }
+    });
   }
   actualPrompt: string = "Prendre en photo la vue depuis votre chambre.";
+  secondPrompt: string = "Dessinez un arbre.";
   category: string = "Photographie et dessin";
   categoryId: string = "musique";
   everyoneHasUploaded = false;

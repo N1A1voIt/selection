@@ -18,4 +18,13 @@ export class GroupService {
     }
     return this.http.get<any>(environment.apiUrl + '/generate-theme',httpOptions);
   }
+  getModifPrompt(theme:string): Observable<Theme> {
+    const httpOptions = {
+      headers: new HttpHeaders(
+        {'Content-Type': 'application/json'},
+      )
+    }
+    const body = { theme };
+    return this.http.post<any>(this.apiUrl + "generate-theme-modif", body,httpOptions);
+  }
 }
