@@ -73,7 +73,7 @@ export class SignupPage implements OnInit {
         await this.storeUserData(user);
         console.log('ID Token:', user.getIdToken());
         localStorage.setItem('idToken', JSON.stringify(user.getIdToken()));
-        this.router.navigate(['/main/watchlist']);
+        this.router.navigate(['/intro']);
       })
       .catch((error) => {
         console.error('Authentication error:', error);
@@ -95,7 +95,7 @@ export class SignupPage implements OnInit {
       })
       .then((user) => this.checkUsernameAvailability(user))
       .then((user) => this.storeUserData(user))
-      .then(() => this.router.navigate(['/main/watchlist']))
+      .then(() => this.router.navigate(['/intro']))
       .catch((error) => {
         console.error('Error during signup:', error);
         alert('Error during signup. Please try again.');
