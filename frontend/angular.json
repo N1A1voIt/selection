@@ -107,7 +107,7 @@
                 "output": "assets"
               }
             ],
-            "styles": ["src/global.scss", "src/theme/variables.scss","node_modules/ionicons/dist/collection/components/icon/icon.css"],
+            "styles": ["src/global.scss", "src/theme/variables.scss","node_modules/ionicons/dist/collection/components/icon/icon.css","node_modules/tui-image-editor/dist/tui-image-editor.css"],
             "scripts": []
           },
           "configurations": {
