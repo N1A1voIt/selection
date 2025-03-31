@@ -64,8 +64,9 @@ export class SigninPage implements OnInit {
       })
       .then(async (user) => {
         await this.storeUserData(user);
-        console.log('ID Token:', user.getIdToken());
-        localStorage.setItem('idToken', JSON.stringify(user.getIdToken()));
+        let idToken = await user.getIdToken();
+        console.log('ID Token:',idToken);
+        localStorage.setItem('idToken', JSON.stringify(idToken));
         this.router.navigate(['/main/watchlist']);
       }).catch((error) => {
         console.error('Authentication error:', error);
