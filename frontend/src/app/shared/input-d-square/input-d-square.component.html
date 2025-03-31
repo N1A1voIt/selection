@@ -1,0 +1,12 @@
+<div class="monospace">
+    <label [for]="id" class="block mb-2 text-sm text-primary dark:text-white font-semibold">{{ label }}</label>
+    <input
+        [id]="id"
+        [type]="type"
+        [value]="value"
+        [disabled]="disabled"
+        [placeholder]="placeholder"
+        class= "border border-gray-100 text-primary text-sm focus:ring-primary focus:border-primary block w-full p-2 dark:focus:ring-primary dark:focus:borde-primary outline-none bg-primary bg-opacity-20"
+        (input)="onInputChange($event)"
+    />
+</div>
