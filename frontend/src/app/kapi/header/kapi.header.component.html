@@ -1,0 +1,13 @@
+<div class="flex flex-col relative items-center">
+  <div class="bg-mocha w-full h-[30vh] rounded-b-[40px] absolute top-0 z-0 p-10">
+    <div class="flex flex-row justify-between items-center gap-4">
+      <ion-icon name="arrow-back" class="text-white" (click)="goBack()" size="large"></ion-icon>
+      <ng-container [ngTemplateOutlet]="headerContent"></ng-container>
+    </div>
+  </div>
+
+  <!-- Kapi container positioned in center -->
+  <div class="relative z-10 mt-[10vh]">
+    <app-kapi width="300" height="300" modelPath="../../assets/kapi/kapi_idle.glb"></app-kapi>
+  </div>
+</div>

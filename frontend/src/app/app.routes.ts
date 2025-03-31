@@ -28,4 +28,9 @@ export const routes: Routes = [
         (m) => m.ListFriendsPage
       ),
   },
+  {
+    path: 'friend-group',
+    loadComponent: () => import('./friendgroup/home/friendgroup.page').then( m => m.FriendGroupPage)
+  },
+
 ];
