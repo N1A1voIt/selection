@@ -35,9 +35,14 @@ export const routes: Routes = [
   {
     path: 'create-group',
     loadComponent: () => import('./group/create-group/create-group.page').then( m => m.CreateGroupPage)
-  },  {
+  },
+  {
     path: 'validation',
     loadComponent: () => import('./validation/validation.page').then( m => m.ValidationPage)
+  },
+  {
+    path: 'image-editor',
+    loadComponent: () => import('./image-editor/image-editor.page').then( m => m.ImageEditorPage)
   },
 
 
