@@ -14,7 +14,8 @@ import {
   personOutline
 } from "ionicons/icons";
 import {IonIcon} from "@ionic/angular/standalone";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink, RouterLinkActive} from "@angular/router";
+import {NgClass} from "@angular/common";
 
 @Component({
   selector: 'app-navbar',
@@ -22,12 +23,14 @@ import {RouterLink} from "@angular/router";
   styleUrls: ['./navbar.component.scss'],
   imports: [
     IonIcon,
-    RouterLink
+    RouterLink,
+    RouterLinkActive,
+    NgClass
   ]
 })
-export class NavbarComponent  implements OnInit {
+export class NavbarComponent {
 
-  constructor() {
+  constructor(public router: Router) {
     addIcons({
       home,
       people,
@@ -40,7 +43,5 @@ export class NavbarComponent  implements OnInit {
       brush
     })
   }
-
-  ngOnInit() {}
 
 }
