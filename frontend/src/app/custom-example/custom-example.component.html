@@ -1,0 +1,19 @@
+<canvas #canvas
+        (mousedown)="startDrawing($event)"
+        (mousemove)="draw($event)"
+        (mouseup)="stopDrawing()"
+        (mouseleave)="stopDrawing()"
+        (touchstart)="startDrawing($event)"
+        (touchmove)="draw($event)"
+        (touchend)="stopDrawing()"
+    class="w-full h-full"
+>
+</canvas>
+
+<div class="controls">
+  <input type="color" [(ngModel)]="drawColor">
+  <input type="range" min="1" max="50" [(ngModel)]="brushSize">
+  <button (click)="clearCanvas()">Clear</button>
+  <button (click)="saveImage()">Save</button>
+  <input type="file" (change)="loadImage($event)" accept="image/*">
+</div>
