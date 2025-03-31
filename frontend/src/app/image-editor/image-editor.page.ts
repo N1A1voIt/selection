@@ -9,8 +9,19 @@ import {FormsModule} from "@angular/forms";
 import {IonIcon} from "@ionic/angular/standalone";
 import {addIcons} from "ionicons";
 import {checkmarkOutline, cloudUploadOutline} from "ionicons/icons";
+import {createClient} from "@supabase/supabase-js";
+import {GroupService} from "../services/group.service";
+import {Router} from "@angular/router";
 
-
+const supabase = createClient('https://raurqxjoiivhjjbhoojn.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJhdXJxeGpvaWl2aGpqYmhvb2puIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MzQzMDEzNSwiZXhwIjoyMDU5MDA2MTM1fQ.5CBJ0_3fOk0Ze06SU5w9-1yVkHQdq8nRzSbNZAhnhU4',
+  {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false
+    }
+  }
+);
 @Component({
   selector: 'app-image-editor',
   templateUrl: './image-editor.page.html',
@@ -36,8 +47,9 @@ export class ImageEditorPage implements AfterViewInit {
   private image = new Image();
   public drawColor: string = '#000000';
   public brushSize: number = 5;
+  public prompt:string = "Un chat et dessine un coeur";
 
-  constructor() {
+  constructor(private groupService: GroupService,private router:Router) {
     addIcons({
       checkmarkOutline,cloudUploadOutline
     })
@@ -115,7 +127,56 @@ export class ImageEditorPage implements AfterViewInit {
   }
 
   saveImage() {
+    const fileName = `photo-${Date.now()}.jpg`;
     const canvas = this.canvasRef.nativeElement;
+    canvas.toBlob(async (blob) => {
+      let imageOk = false;
+      if (blob) {
+        const fileBlob = blob;
+
+        const formData = new FormData();
+        const fileName = `drawing-${Date.now()}.png`;
+        formData.append('image', fileBlob, fileName);
+        formData.append('prompt', this.prompt);
+
+        this.groupService.validateImage(formData).subscribe({
+          next: async (result) => {
+            console.log('Result from validateImage:', result);
+
+            if (result.similarity_score > 0.5) {
+              imageOk = true;
+              try {
+                const { data, error } = await supabase
+                  .storage
+                  .from('photos')
+                  .upload(fileName, fileBlob, {
+                    cacheControl: '3600',
+                    upsert: true,
+                  });
+
+                if (error) {
+                  console.error('Error uploading file:', error.message);
+                } else {
+                  console.log('File uploaded successfully:', data);
+                }
+              } catch (err) {
+                console.error('Error during upload:', err);
+              }
+            }
+            else {
+              console.error("Not valid picture")
+            }
+            await this.router.navigate(['/validation'], {
+              state: {
+                image: URL.createObjectURL(blob),
+                score: result,
+                isImageOkay: imageOk,
+              },
+            });
+          }});
+      }
+    }, 'image/png');
+
     const image = canvas.toDataURL('image/png');
     const link = document.createElement('a');
     link.href = image;
