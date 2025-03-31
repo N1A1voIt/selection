@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {Observable} from "rxjs";
-import {Theme} from "../interfaces/theme";
+import {Score, Theme} from "../interfaces/theme";
+import {data} from "autoprefixer";
 
 
 @Injectable({
@@ -26,5 +27,14 @@ export class GroupService {
     }
     const body = { theme };
     return this.http.post<any>(this.apiUrl + "generate-theme-modif", body,httpOptions);
+  }
+   validateImage(formData: FormData): Observable<Score> {
+    console.log(formData);
+    this.http.post<any>(environment.apiUrl + '/validate-image',formData).subscribe({
+      next: (result) => {
+        console.log(result);
+      }
+    });
+    return this.http.post<any>(environment.apiUrl + '/validate-image',formData);
   }
 }
