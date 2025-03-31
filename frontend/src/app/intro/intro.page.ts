@@ -6,23 +6,22 @@ import {addIcons} from "ionicons";
 import {arrowForwardOutline} from "ionicons/icons";
 import {KapiHeaderComponent} from "../kapi/header/kapi.header.component";
 import {KapiComponent} from "../kapi/kapi.component";
+import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 
 @Component({
   selector: 'app-intro',
   templateUrl: './intro.page.html',
   styleUrls: ['./intro.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonIcon, KapiHeaderComponent, KapiComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonIcon, KapiHeaderComponent, KapiComponent, RouterLink, RouterLinkActive]
 })
-export class IntroPage implements OnInit {
+export class IntroPage {
 
-  constructor() {
+  constructor(public router: Router) {
     addIcons({
       arrowForwardOutline
     })
   }
 
-  ngOnInit() {
-  }
 
 }
