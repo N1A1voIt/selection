@@ -12,7 +12,7 @@ import {
   signInWithPopup,
   TwitterAuthProvider
 } from "firebase/auth";
-import {signInWithEmailAndPassword} from "@angular/fire/auth";
+import {signInWithEmailAndPassword, signInWithRedirect} from "@angular/fire/auth";
 import {Router} from "@angular/router";
 import {addIcons} from "ionicons";
 import {logoFacebook, logoGoogle, logoTwitter} from "ionicons/icons";
@@ -44,6 +44,9 @@ export class SigninPage implements OnInit {
   signInWithGoogle() {
     const provider = new GoogleAuthProvider();
     provider.addScope('email');
+    provider.setCustomParameters({
+      prompt: "select_account"
+    });
     this.handleAuthPopup(provider);
   }
   signInWithFacebook() {
@@ -57,6 +60,7 @@ export class SigninPage implements OnInit {
   }
   private handleAuthPopup(provider: AuthProvider) {
     const auth = getAuth();
+
     signInWithPopup(auth, provider)
       .then((result) => {
         console.log(result.user);
