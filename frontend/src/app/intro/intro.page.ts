@@ -16,7 +16,7 @@ import {NgxSpinnerComponent} from "ngx-spinner";
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonIcon, KapiHeaderComponent, KapiComponent, RouterLink, RouterLinkActive, NgxSpinnerComponent]
 })
-export class IntroPage {
+export class IntroPage implements OnInit{
 
   isLoading: boolean = false
 
