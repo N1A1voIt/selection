@@ -5,7 +5,7 @@ from azure.core.credentials import AzureKeyCredential
 
 endpoint = "https://models.inference.ai.azure.com"
 model_name = "Mistral-Large-2411"
-token = "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"
+token = "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"
 
 
 def create_theme():    

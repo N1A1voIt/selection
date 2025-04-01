@@ -7,6 +7,7 @@ from PIL import Image
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from transformers import CLIPProcessor, CLIPModel
+import random
 
 from audio import audio
 from theme import theme_creator
@@ -90,7 +91,7 @@ def validate_image():
         image_file = request.files['image']
         prompt = request.form['prompt']
 
-        image_path = f"/tmp/{image_file.filename}"
+        image_path = f"D:/HIU/selection/python/tmp/{image_file.filename}"
         image_file.save(image_path)
 
         similarity_score = validate_image_with_prompt(image_path, prompt)
@@ -103,12 +104,76 @@ def validate_image():
         return jsonify(result)
 
     except Exception as e:
+        print(e)
         return jsonify({"error": str(e)}), 400
 
 
 @app.route('/generate-theme', methods=['GET'])
 def generate_theme():
-    res = theme_creator.create_theme()
+    themes = [
+        'une fontaine dans un parc',
+        'des avions dans le aéroport',
+        'une église historique',
+        'le Lycée Galliéni',
+        'une boulangerie traditionnelle',
+        'des enfants qui jouent',
+        'un arbre fruitier',
+        'une place de village',
+        'des oiseaux en vol',
+        'un banc public sous la pluie',
+        'une vitrine de magasin',
+        'une rizière en escalier',
+        'une vieille voiture classique',
+        'une ruelle étroite',
+        'un café au lait et un croissant',
+        'des fleurs sauvages dans un pré',
+        'le Rova de Manjakamiadana',
+        'une oiseau dans le ciel',
+        'un musicien de rue',
+        'une fenêtre avec des volets bleus',
+        'un marché aux puces',
+        'des parasols sur la plage',
+        'une salle de classe'
+    ]
+
+    # res = theme_creator.create_theme()
+    rand = random.randint(0, len(themes) - 1)
+    res = {'theme': 'photo', 'detail': themes[rand]}
+    return jsonify(res)
+
+@app.route('/generate-theme-modif', methods=['GET'])
+def generate_theme_modif():
+    themes = [
+        'dessine un oiseau',
+        'dessine un soleil',
+        'dessine une baleine',
+        'dessine un gateau',
+        'dessine une maison',
+        'dessine un arbre',
+        'dessine une fleur',
+        'dessine un papillon',
+        'dessine un chat',
+        'dessine un bateau',
+        'dessine une étoile',
+        'dessine un poisson',
+        'dessine un nuage',
+        'dessine une voiture',
+        'dessine un robot',
+        'dessine une licorne',
+        'dessine un dragon',
+        'dessine un château',
+        'dessine une fusée',
+        'dessine un elfe',
+        'dessine un monstre rigolo',
+        'dessine un dinosaure',
+        'dessine une sirène',
+        'dessine un avion',
+        'dessine un train'
+    ]
+
+    # res = theme_creator.create_theme()
+    rand = random.randint(0, len(themes) - 1)
+    res = {'theme': 'photo', 'detail': themes[rand]}
     return jsonify(res)
 
 @app.route('/shuffle-pictures', methods=['POST'])

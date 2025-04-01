@@ -26,7 +26,7 @@ export class GroupService {
       )
     }
     const body = { theme };
-    return this.http.post<any>(this.apiUrl + "generate-theme-modif", body,httpOptions);
+    return this.http.get<any>(this.apiUrl + "generate-theme-modif", httpOptions);
   }
    validateImage(formData: FormData): Observable<Score> {
     console.log(formData);
