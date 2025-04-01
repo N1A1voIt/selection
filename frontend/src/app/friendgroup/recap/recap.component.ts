@@ -53,6 +53,7 @@ export class RecapComponent implements AfterViewInit {
   constructor() {}
 
   ngAfterViewInit() {
+    console.log("Imagesssss:"+this.images);
     // Register Ionic Swiper components
     const swiperEl = this.swiperContainer.nativeElement;
 

@@ -105,7 +105,7 @@ def validate_image():
         image_file = request.files['image']
         prompt = request.form['prompt']
 
-        image_path = f"/tmp/{image_file.filename}"
+        image_path = f"tmp/{image_file.filename}"
         image_file.save(image_path)
 
         similarity_score = validate_image_with_prompt(image_path, prompt)

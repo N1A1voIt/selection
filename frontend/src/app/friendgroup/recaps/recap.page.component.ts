@@ -48,14 +48,15 @@ export class RecapPageComponent implements OnInit {
   ngOnInit(): void {
     this.loadImages();
   }
-  loadImages(): void {
+  loadImages():  void {
     this.supabase.getImagesUploadedToday().subscribe((imagesData) => {
+      console.log("From supabase",imagesData)
       this.images = imagesData.map((imageData) => {
         const publicUrl = supabase
           .storage
           .from('photos')
           .getPublicUrl(imageData.name)
-
+        console.log('publicUrl ::: ', publicUrl);
         return {
           url: publicUrl.data.publicUrl,
           alt: 'Uploaded Image',
