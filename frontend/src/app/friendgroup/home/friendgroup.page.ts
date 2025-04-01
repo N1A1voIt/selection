@@ -1,13 +1,3 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Input,
-  numberAttribute,
-  OnDestroy,
-  OnInit,
-  ViewChild
-} from '@angular/core';
 import {Component, OnInit} from '@angular/core';
 import { KapiHeaderComponent } from "../../kapi/header/kapi.header.component";
 import {FirstDailyPromptComponent} from "./prompts/firstDaily/first.daily.prompt.component";
@@ -38,7 +28,7 @@ export class FriendGroupPage  implements OnInit {
   groupId: string = '';
   groupData: any;
   streak: number = 0;
-  
+
   constructor(private groupService: GroupService,private route: ActivatedRoute, private firestore: Firestore, private friendGroupService: FriendgroupService) { }
 
   getGroupDetails() {
