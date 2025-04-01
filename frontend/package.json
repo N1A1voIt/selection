@@ -51,6 +51,7 @@
     "firebaseui": "^6.1.0",
     "ionicons": "^7.4.0",
     "ng-apexcharts": "^1.15.0",
+    "ngx-spinner": "^19.0.0",
     "photoeditorsdk": "^5.19.3",
     "rollup": "^4.38.0",
     "rxjs": "~7.8.0",

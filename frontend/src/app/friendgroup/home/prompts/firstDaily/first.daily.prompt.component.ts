@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import {addDoc, collection, Firestore} from "@angular/fire/firestore";
 import {Auth, onAuthStateChanged} from "@angular/fire/auth";
 import {getAuth} from "firebase/auth";
+import { CameraComponent } from "../../../../components/camera/camera.component";
 const supabase = createClient('https://raurqxjoiivhjjbhoojn.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJhdXJxeGpvaWl2aGpqYmhvb2puIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MzQzMDEzNSwiZXhwIjoyMDU5MDA2MTM1fQ.5CBJ0_3fOk0Ze06SU5w9-1yVkHQdq8nRzSbNZAhnhU4',
   {
@@ -28,8 +29,9 @@ const supabase = createClient('https://raurqxjoiivhjjbhoojn.supabase.co',
   styleUrls: ['./first.daily.prompt.component.scss'],
   imports: [
     IonicModule,
-    NgIf
-  ]
+    NgIf,
+    CameraComponent
+]
 })
 export class FirstDailyPromptComponent{
   @Input() actualPrompt: string = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper';
