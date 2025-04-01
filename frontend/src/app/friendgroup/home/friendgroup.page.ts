@@ -28,7 +28,11 @@ export class FriendGroupPage  implements OnInit {
   groupId: string = '';
   groupData: any;
   streak: number = 0;
-
+  actualPrompt: string = "Prendre en photo la vue depuis votre chambre.";
+  secondPrompt: string = "Dessinez un arbre.";
+  category: string = "Photographie et dessin";
+  categoryId: string = "musique";
+  everyoneHasUploaded = false;
   constructor(private groupService: GroupService,private route: ActivatedRoute, private firestore: Firestore, private friendGroupService: FriendgroupService) { }
 
   getGroupDetails() {
