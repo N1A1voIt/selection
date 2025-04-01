@@ -1,6 +1,7 @@
 from io import BytesIO
 
 import requests
+from shuffle_pictures import shuffle
 import torch
 from PIL import Image
 from flask import Flask, jsonify, request
@@ -109,6 +110,12 @@ def validate_image():
 def generate_theme():
     res = theme_creator.create_theme()
     return jsonify(res)
+
+@app.route('/shuffle-pictures', methods=['POST'])
+def shuffle_pictures():
+    pics = request.json
+    shuffle(pics)
+    return jsonify(pics)
 
 if __name__ == '__main__':
     app.run(debug=True)
