@@ -51,7 +51,7 @@ export class SupabaseService {
   constructor() { }
   // Function to get images uploaded today
   getImagesUploadedToday(): Observable<any[]> {
-    const todayDate = this.getYesterdaysDateInGMTPlus3();
+    const todayDate = this.getTodaysDateInGMTPlus3();
     console.log(todayDate);
     return new Observable((observer) => {
       // List all files in the "photos" bucket

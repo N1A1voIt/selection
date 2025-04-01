@@ -9,7 +9,7 @@ export class FriendgroupService {
   constructor(private firestore: Firestore) { }
 
   streakVerifier(): number {
-    return 2;
+    return 0;
   }
 
 
