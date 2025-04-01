@@ -1,7 +1,7 @@
 <!--<ion-app>-->
   <div class="overflow-y-scroll max-h-[100vh] h-[100vh] w-[100vw] pb-20">
     <router-outlet></router-outlet>
-    <app-navbar *ngIf="isAuth"></app-navbar>
+    <app-navbar *ngIf="isAuth && !router.url.includes('image-editor')"></app-navbar>
   </div>
 
 <!--</ion-app>-->
