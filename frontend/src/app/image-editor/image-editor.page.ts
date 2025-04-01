@@ -14,6 +14,11 @@ import {GroupService} from "../services/group.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NgStyle} from "@angular/common";
 import {KapiComponent} from "../kapi/kapi.component";
+import {collection, collectionData, Firestore, getDocs, query, where} from "@angular/fire/firestore";
+import firebase from "firebase/compat";
+import CollectionReference = firebase.firestore.CollectionReference;
+import {map, Observable} from "rxjs";
+import {DocumentData} from "@angular/fire/compat/firestore";
 
 const supabase = createClient('https://raurqxjoiivhjjbhoojn.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJhdXJxeGpvaWl2aGpqYmhvb2puIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MzQzMDEzNSwiZXhwIjoyMDU5MDA2MTM1fQ.5CBJ0_3fOk0Ze06SU5w9-1yVkHQdq8nRzSbNZAhnhU4',
@@ -52,10 +57,33 @@ export class ImageEditorPage implements AfterViewInit {
   public drawColor: string = '#000000';
   public brushSize: number = 5;
   public prompt: string = localStorage.getItem("secondPrompt") ?? "Placeholder prompt";
+  private imgName: string | null = null;
+  private collectionRef: CollectionReference;
+  public photoInfo: any | null = null;
 
-  constructor(private groupService: GroupService, private router: Router, private route: ActivatedRoute) {
+  constructor(private groupService: GroupService, private router: Router, private route: ActivatedRoute, private firestore: Firestore) {
     addIcons({ checkmarkOutline, cloudUploadOutline });
+    // @ts-ignore
+    this.collectionRef = collection(this.firestore, 'photos');
   }
+
+  findFirstByFileName(fileName: string): Observable<DocumentData | null> {
+    const q = query(this.collectionRef, where('supabaseUrl', '==', fileName));
+    return collectionData(q, { idField: 'id' }).pipe(
+      map(results => (results.length > 0 ? results[0] : null))
+    );
+  }
+
+  // async findFirstByFileName(fileName: string) {
+  //   const q = query(this.collectionRef, where('fileName', '==', fileName));
+  //   const querySnapshot = await getDocs(q);
+  //
+  //   if (!querySnapshot.empty) {
+  //     return querySnapshot.docs[0].data(); // Returns the first matching document's data
+  //   } else {
+  //     return null; // No match found
+  //   }
+  // }
 
   ngAfterViewInit(): void {
     const canvas = this.canvasRef.nativeElement;
@@ -79,8 +107,14 @@ export class ImageEditorPage implements AfterViewInit {
   }
 
   loadImageFromUrl(imageUrl: string): void {
+    this.imgName = imageUrl.split('photos/')[1];
+    console.log(this.imgName);
     this.image.crossOrigin = 'Anonymous'; // Set crossOrigin attribute
     this.image.src = imageUrl;
+    this.findFirstByFileName(this.imgName).subscribe(result => {
+      this.photoInfo = result;
+      console.log(this.photoInfo);
+    });
     this.image.onload = () => {
       this.redrawCanvas();
     };
