@@ -205,7 +205,7 @@ export class ImageEditorPage implements AfterViewInit {
               try {
                 const { data, error } = await supabase
                   .storage
-                  .from('photos')
+                  .from('edits')
                   .upload(fileName, fileBlob, {
                     cacheControl: '3600',
                     upsert: true,
