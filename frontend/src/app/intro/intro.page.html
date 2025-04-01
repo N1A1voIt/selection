@@ -1,4 +1,4 @@
-<div class="flex justify-center items-center relative h-full">
+<div class="flex justify-center items-center relative h-full" *ngIf="!isLoading">
   <div class="bg-white border border-primary h-[80vh] w-[80vw] absolute top-[50%] -translate-y-[55%] rounded-3xl "
        style="background-image: url('/assets/imgs/bg.jpeg'); background-size: cover; background-position: center;">
     <div class="relative bg-primary w-[50px] h-[50px] right-0 py-2 px-2
@@ -14,3 +14,7 @@
   </div>
 
 </div>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true" *ngIf="isLoading">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {IonContent, IonHeader, IonIcon, IonTitle, IonToolbar} from '@ionic/angular/standalone';
@@ -17,7 +17,7 @@ import {Router} from "@angular/router";
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonIcon]
 })
-export class ListGroupPage implements OnInit {
+export class ListGroupPage implements OnInit, OnDestroy {
   users: any[] = [];
   userGroups: any[] = [];
   currentUserEmail!: string;
@@ -28,7 +28,7 @@ export class ListGroupPage implements OnInit {
     this.router.navigateByUrl('/friend-group/'+group.id); // Navigate to group details page
   }
 
-  constructor(private firestore: Firestore, private auth: Auth,protected router:Router) {
+  constructor(private firestore: Firestore, private auth: Auth,private router: Router) {
     addIcons({
       arrowBack,
       addCircleOutline
@@ -37,6 +37,11 @@ export class ListGroupPage implements OnInit {
 
   ngOnInit() {
     this.getCurrentUser();
+  }
+
+  ngOnDestroy() {
+    this.userGroups = [];
+    this.users = [];
   }
 
   getCurrentUser() {
@@ -52,6 +57,20 @@ export class ListGroupPage implements OnInit {
         console.log("No user logged in");
       }
     });
+  }
+
+  navigateToCreateGroup(groupId: string) {
+    this.router.navigateByUrl('/create-group')
+  }
+
+  navigateToGroup(groupId: string) {
+    this.router.navigateByUrl('/friend-group/' + groupId).then(() => {
+      console.log("NANDENDE E")
+    });
+  }
+
+  trackByGroupId(index: number, group: any): string {
+    return group.id;
   }
 
   getUserGroups() {

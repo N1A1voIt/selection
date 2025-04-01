@@ -1,7 +1,7 @@
 <!--<ion-app>-->
   <div class="overflow-y-scroll max-h-[100vh] pb-20">
     <ion-router-outlet></ion-router-outlet>
-    <app-navbar></app-navbar>
+    <app-navbar *ngIf="isAuth"></app-navbar>
   </div>
 
 <!--</ion-app>-->
