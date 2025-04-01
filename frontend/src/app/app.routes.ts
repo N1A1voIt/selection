@@ -57,6 +57,10 @@ export const routes: Routes = [
     path: 'gallery',
     loadComponent: () => import('./gallery-fixed/gallery-fixed.component').then(m => m.GalleryFixedComponent)
   },
+  {
+    path:'signout',
+    loadComponent:() => import('./authentication/signout/signout.component').then(m => m.SignoutComponent)
+  }
 
 ];
 

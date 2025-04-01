@@ -1,19 +1,22 @@
 <div class="flex justify-center items-center relative h-full" *ngIf="!isLoading">
-  <div class="bg-white border border-primary h-[80vh] w-[80vw] absolute top-[50%] -translate-y-[55%] rounded-3xl "
+  <div class="bg-white border border-primary h-[80vh] w-[80vw] absolute top-[55%] -translate-y-[55%] rounded-3xl "
        style="background-image: url('/assets/imgs/bg.jpeg'); background-size: cover; background-position: center;">
-    <div class="relative bg-primary w-[50px] h-[50px] right-0 py-2 px-2
+    <a [routerLink]="['/create-group']" [routerLinkActive]="'active'" class="relative bg-primary w-[50px] h-[50px] right-0 py-2 px-2
      rounded-full text-white top-3 left-3 flex justify-center items-center">
-      <a [routerLink]="['/create-group']" [routerLinkActive]="'active'">
-      <ion-icon name="arrow-forward-outline" class="text-white text-xl" size="medium"></ion-icon>
-      </a>
-    </div>
+        <ion-icon name="arrow-forward-outline" class="text-white text-xl" size="medium"></ion-icon>
+    </a>
     <p class="font-custom text-2xl text-blue-950 text-center px-4 pt-8">Hello ! Moi, c'est Kapi. Prêt à te faire des amis ?</p>
     <div class="absolute top-[50%] -translate-y-[55%] ">
       <app-kapi width="300" height="300" modelPath="../../assets/kapi/kapi_wave.glb"></app-kapi>
     </div>
   </div>
-
+  <div class="absolute top-[96%]">
+    <a [routerLink]="['/signout']" [routerLinkActive]="'active'" class="w-[250px] px-5 py-2.5 bg-[#b27156] border-none rounded-2xl text-white">
+      Se déconnecter
+    </a>
+  </div>
 </div>
+
 
 <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true" *ngIf="isLoading">
   <p style="color: white">Loading...</p>

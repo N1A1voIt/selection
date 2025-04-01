@@ -13,7 +13,7 @@ import {
 } from '@ionic/angular/standalone';
 import {getAuth, GoogleAuthProvider, signInWithPopup,FacebookAuthProvider,TwitterAuthProvider,AuthProvider} from "firebase/auth";
 import {Router} from "@angular/router";
-import {createUserWithEmailAndPassword, updateProfile} from "@angular/fire/auth";
+import {createUserWithEmailAndPassword, signOut, updateProfile} from "@angular/fire/auth";
 import {get, getDatabase, set,ref as databaseRef } from "@angular/fire/database";
 import { ref } from "@angular/fire/storage";
 import {InputDSquareComponent} from "../../shared/input-d-square/input-d-square.component";
@@ -80,7 +80,6 @@ export class SignupPage implements OnInit {
         alert(error.message);
       });
   }
-
 
   signup() {
     const auth = getAuth();
