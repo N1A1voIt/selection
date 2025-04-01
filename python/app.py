@@ -124,22 +124,23 @@ def validate_image():
 
 @app.route('/generate-theme', methods=['GET'])
 def generate_theme():
-    themes = [
+    themes2 = [
         'des avions dans le aéroport',
         'un chat',
         'un café au lait et un croissant',
         'le Rova de Manjakamiadana',
         'un musicien de rue'
     ]
-    themes2 = [
-        'un selfie',
-        'un ordinateur',
-        'un telephone',
-        'une chaise',
-        'des chaussures',
-        'une personne qui sourit',
-        'un clavier',
-        'une salle de classe'
+    themes= [
+    ' un selfie',
+	' un croissant et un café au alit',
+	' le Rova de Manjakamiadana',
+	' la plage',
+	' des boissons',
+	' un ordinateur',
+	' des pizzas',
+	' un chat',
+	' un chien',
     ]
 
     # res = theme_creator.create_theme()
