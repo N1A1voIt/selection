@@ -1,0 +1,11 @@
+<div class="flex flex-col w-full overflow-scroll pb-16">
+  <app-kapi-header w="200" h="200" [headerContent]="friendgroupName"></app-kapi-header>
+  <div class="flex flex-col p-6">
+    <h3 class="text-lg mb-2 font-bold text-mocha">Recap de la journée</h3>
+    <app-recap [images]="images" class="pl-8"></app-recap>
+  </div>
+</div>
+
+<ng-template #friendgroupName>
+  <h2 class="text-2xl text-white font-bold">Groupe d'amis A</h2>
+</ng-template>

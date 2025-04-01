@@ -1,37 +1,49 @@
 import { Component, OnInit } from '@angular/core';
 import {addIcons} from "ionicons";
 import {
+  brush,
+  brushOutline,
   create,
-  createOutline,
+  createOutline, gridOutline,
   home,
   homeOutline,
   logoFacebook,
   logoGoogle,
   logoTwitter, people,
-  peopleOutline, person,
+  peopleOutline, person, personAdd,
   personOutline
 } from "ionicons/icons";
 import {IonIcon} from "@ionic/angular/standalone";
+import {Router, RouterLink, RouterLinkActive} from "@angular/router";
+import {NgClass} from "@angular/common";
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
   imports: [
-    IonIcon
+    IonIcon,
+    RouterLink,
+    RouterLinkActive,
+    NgClass
   ]
 })
-export class NavbarComponent  implements OnInit {
+export class NavbarComponent {
 
-  constructor() {
+  constructor(public router: Router) {
     addIcons({
       home,
       people,
       person,
-      create
+      create,
+      homeOutline,
+      personOutline,
+      peopleOutline,
+      brushOutline,
+      brush,
+      personAdd,
+      gridOutline
     })
   }
-
-  ngOnInit() {}
 
 }

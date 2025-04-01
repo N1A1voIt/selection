@@ -4,12 +4,12 @@
   <app-kapi-header [headerContent]="friendgroupName"></app-kapi-header>
 
   <!-- CONTENT -->
-    <app-first-daily-prompt *ngIf="!everyoneHasUploaded"></app-first-daily-prompt>
-    <app-second-daily-prompt *ngIf="everyoneHasUploaded"></app-second-daily-prompt>
+    <app-first-daily-prompt [actualPrompt]="actualPrompt" [category]="category" *ngIf="!everyoneHasUploaded"></app-first-daily-prompt>
+    <app-second-daily-prompt [actualPrompt]="secondPrompt" *ngIf="everyoneHasUploaded"></app-second-daily-prompt>
 </div>
 
 <ng-template #friendgroupName>
-  <h2 class="text-2xl text-white font-bold">Groupe d'amis A</h2>
+  <h2 class="text-2xl text-white font-bold">{{groupData.name}}</h2>
   <app-fire *ngIf="streak !== 0" [number]="streak"></app-fire>
 </ng-template>
 

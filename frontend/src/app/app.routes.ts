@@ -1,3 +1,4 @@
+
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
@@ -29,7 +30,7 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'friend-group',
+    path: 'friend-group/:id',
     loadComponent: () => import('./friendgroup/home/friendgroup.page').then( m => m.FriendGroupPage)
   },
   {
@@ -40,5 +41,20 @@ export const routes: Routes = [
     path: 'validation',
     loadComponent: () => import('./validation/validation.page').then( m => m.ValidationPage)
   },
+  {
+    path: 'image-editor',
+    loadComponent: () => import('./image-editor/image-editor.page').then( m => m.ImageEditorPage)
+  },
+  {
+    path: 'recap',
+    loadComponent: () => import('./friendgroup/recaps/recap.page.component').then(m => m.RecapPageComponent)
+  },
+  {
+    path: 'list-group',
+    loadComponent: () => import('./group/list-group/list-group.page').then( m => m.ListGroupPage)
+  },
+
+
 
 ];
+

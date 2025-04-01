@@ -1,0 +1,72 @@
+import {Component, OnInit} from '@angular/core';
+import {RecapComponent} from "../recap/recap.component";
+import {KapiHeaderComponent} from "../../kapi/header/kapi.header.component";
+import {Router} from "@angular/router";
+import {SupabaseService} from "../../services/supabase.service";
+import {createClient} from "@supabase/supabase-js";
+const supabase = createClient('https://raurqxjoiivhjjbhoojn.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJhdXJxeGpvaWl2aGpqYmhvb2puIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MzQzMDEzNSwiZXhwIjoyMDU5MDA2MTM1fQ.5CBJ0_3fOk0Ze06SU5w9-1yVkHQdq8nRzSbNZAhnhU4',
+  {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false
+    }
+  }
+);
+@Component({
+  selector: 'app-recap-page',
+  templateUrl: './recap.page.component.html',
+  styleUrls: ['./recap.page.component.scss'],
+  imports: [
+    RecapComponent,
+    KapiHeaderComponent
+  ]
+})
+export class RecapPageComponent implements OnInit {
+
+  constructor(private supabase: SupabaseService) { }
+
+  images: { alt: string; url: any }[] = [
+    {
+      url: 'https://picsum.photos/id/1018/800/600',
+      alt: 'Mountain landscape'
+    },
+    {
+      url: 'https://picsum.photos/id/1015/800/600',
+      alt: 'River through mountains'
+    },
+    {
+      url: 'https://picsum.photos/id/1019/800/600',
+      alt: 'Forest landscape'
+    },
+    {
+      url: 'https://picsum.photos/id/1039/800/600',
+      alt: 'Lake view'
+    }
+  ];
+
+  ngOnInit(): void {
+    this.loadImages();
+  }
+  loadImages(): void {
+    this.supabase.getImagesUploadedToday().subscribe((imagesData) => {
+      this.images = imagesData.map((imageData) => {
+        const publicUrl = supabase
+          .storage
+          .from('photos')
+          .getPublicUrl(imageData.name)
+
+        return {
+          url: publicUrl.data.publicUrl,
+          alt: 'Uploaded Image',
+        };
+      });
+
+      console.log('Images Loaded:', this.images);
+    }, (error) => {
+      console.error('Error loading images:', error);
+    });
+  }
+
+
+}

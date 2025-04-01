@@ -1,0 +1,26 @@
+/* image-slider.component.scss */
+swiper-container::part(bullet-active) {
+  background-color: #4f46e5;
+}
+
+swiper-container::part(button-prev),
+swiper-container::part(button-next) {
+  color: #4f46e5;
+  padding: 0 20px;
+}
+
+.swiper-slide {
+  transition: transform 0.4s ease-in-out;
+  transform-origin: center center;
+}
+
+.swiper-slide-active {
+  z-index: 10;
+  transform: scale(1);
+}
+
+.swiper-slide-prev,
+.swiper-slide-next {
+  opacity: 0.8;
+  transform: scale(0.85);
+}
