@@ -18,7 +18,7 @@ export class AppComponent {
 
   isAuth: boolean = false;
 
-  constructor(private afAuth: AngularFireAuth, private router: Router) {
+  constructor(private afAuth: AngularFireAuth, public router: Router) {
 
     this.router.events.subscribe((event) => {
       if (this.router.url !== '/'){

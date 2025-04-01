@@ -20,6 +20,7 @@ export class KapiHeaderComponent {
   @Input() headerContent: any; // Add headerContent input for passing child elements
   @Input({transform: numberAttribute}) w: number = 300;
   @Input({transform: numberAttribute}) h: number = 300;
+  @Input() kapiUrl: string = "../../assets/kapi/kapi_idle.glb";
 
   constructor(private location: Location) {
     // Register the arrow-back icon
