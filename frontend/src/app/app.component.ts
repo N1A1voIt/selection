@@ -1,7 +1,7 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Router } from '@angular/router';
+import {Router, RouterOutlet} from '@angular/router';
 // import { initializeApp } from 'firebase/app';  // Firebase initialization
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import {environment} from "../environments/environment";
@@ -11,7 +11,7 @@ import {NgIf} from "@angular/common";  // Auth imports
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  imports: [IonApp, IonRouterOutlet, NavbarComponent, NgIf],
+  imports: [IonApp, IonRouterOutlet, NavbarComponent, NgIf, RouterOutlet],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppComponent {
@@ -21,7 +21,12 @@ export class AppComponent {
   constructor(private afAuth: AngularFireAuth, private router: Router) {
 
     this.router.events.subscribe((event) => {
-        this.isAuth = this.router.url !== '/';
+      if (this.router.url !== '/'){
+        this.isAuth = true;
+      }
+      if(this.router.url == '/gallery'){
+        this.isAuth = false;
+      }
     });
     // const firebaseConfig = environment.firebaseConfig;
     // initializeApp(firebaseConfig);
