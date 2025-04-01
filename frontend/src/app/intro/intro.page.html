@@ -12,8 +12,13 @@
       <app-kapi width="300" height="300" modelPath="../../assets/kapi/kapi_wave.glb"></app-kapi>
     </div>
   </div>
-
+  <div class="absolute top-[95%]">
+    <a [routerLink]="['/signout']" [routerLinkActive]="'active'" class="w-[250px] px-5 py-2.5 bg-[#b27156] border-none rounded-2xl text-white">
+      Se déconnecter
+    </a>
+  </div>
 </div>
+
 
 <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true" *ngIf="isLoading">
   <p style="color: white">Loading...</p>
