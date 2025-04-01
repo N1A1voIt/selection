@@ -7,15 +7,18 @@ import {arrowForwardOutline} from "ionicons/icons";
 import {KapiHeaderComponent} from "../kapi/header/kapi.header.component";
 import {KapiComponent} from "../kapi/kapi.component";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
+import {NgxSpinnerComponent} from "ngx-spinner";
 
 @Component({
   selector: 'app-intro',
   templateUrl: './intro.page.html',
   styleUrls: ['./intro.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonIcon, KapiHeaderComponent, KapiComponent, RouterLink, RouterLinkActive]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonIcon, KapiHeaderComponent, KapiComponent, RouterLink, RouterLinkActive, NgxSpinnerComponent]
 })
 export class IntroPage {
+
+  isLoading: boolean = false
 
   constructor(public router: Router) {
     addIcons({
@@ -23,5 +26,11 @@ export class IntroPage {
     })
   }
 
+  ngOnInit() {
+    // Simulate a loading delay
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 2000); // 2 seconds delay
+  }
 
 }

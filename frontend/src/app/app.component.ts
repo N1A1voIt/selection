@@ -5,17 +5,24 @@ import { Router } from '@angular/router';
 // import { initializeApp } from 'firebase/app';  // Firebase initialization
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import {environment} from "../environments/environment";
-import {NavbarComponent} from "./navbar/navbar.component";  // Auth imports
+import {NavbarComponent} from "./navbar/navbar.component";
+import {NgIf} from "@angular/common";  // Auth imports
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  imports: [IonApp, IonRouterOutlet, NavbarComponent],
+  imports: [IonApp, IonRouterOutlet, NavbarComponent, NgIf],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppComponent {
 
+  isAuth: boolean = false;
+
   constructor(private afAuth: AngularFireAuth, private router: Router) {
+
+    this.router.events.subscribe((event) => {
+        this.isAuth = this.router.url !== '/';
+    });
     // const firebaseConfig = environment.firebaseConfig;
     // initializeApp(firebaseConfig);
   }
