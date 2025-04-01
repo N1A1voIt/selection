@@ -8,6 +8,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 from transformers import CLIPProcessor, CLIPModel
 import random
+import torch.nn.functional as F
 
 from audio import audio
 from theme import theme_creator
@@ -63,26 +64,39 @@ processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
 
 def validate_image_with_prompt(image_path, prompt):
     """ Validates the image against the given prompt using CLIP model """
+
     # Open image using PIL (can be from local file or URL)
     if image_path.startswith('http'):
-        # If the image path is a URL
         response = requests.get(image_path)
         img = Image.open(BytesIO(response.content))
     else:
-        # If the image path is a local file
         img = Image.open(image_path)
 
+    print(prompt)
+    # Check if the image was loaded correctly
+    print(f"Image size: {img.size}, Image mode: {img.mode}")
+
     # Process the image and prompt using CLIPProcessor
-    inputs = processor(text=prompt, images=img, return_tensors="pt", padding=True)
+    inputs = processor(text=[prompt], images=img, return_tensors="pt", padding=True)
 
     # Get model predictions
     with torch.no_grad():
         outputs = model(**inputs)
 
-    logits_per_image = outputs.logits_per_image
-    probs = logits_per_image.softmax(dim=1)
-    similarity_score = probs.item()
+    # Extract embeddings
+    image_embeds = outputs.image_embeds
+    text_embeds = outputs.text_embeds
 
+    # Normalize embeddings
+    image_embeds = F.normalize(image_embeds, p=2, dim=1)
+    text_embeds = F.normalize(text_embeds, p=2, dim=1)
+
+    # Calculate cosine similarity
+    similarity_score = torch.nn.functional.cosine_similarity(image_embeds, text_embeds).item()
+
+    print("Similarity Score:", similarity_score)
+
+    # Return the similarity score
     return similarity_score
 
 @app.route('/validate-image', methods=['POST'])
@@ -91,14 +105,14 @@ def validate_image():
         image_file = request.files['image']
         prompt = request.form['prompt']
 
-        image_path = f"D:/HIU/selection/python/tmp/{image_file.filename}"
+        image_path = f"/tmp/{image_file.filename}"
         image_file.save(image_path)
 
         similarity_score = validate_image_with_prompt(image_path, prompt)
 
         result = {
             "similarity_score": similarity_score,
-            "match": "BOOYAA! L'image corréspond bien à mon prompt. Bien joué! Kapi happy :)" if similarity_score > 0.5 else "Oh non, l'image ne corréspond pas à mon prompt. Kapi très triste :("
+            "match": "BOOYAA! L'image corréspond bien à mon prompt. Bien joué! Kapi happy :)" if similarity_score > 0.2 else "Oh non, l'image ne corréspond pas à mon prompt. Kapi très triste :("
         }
 
         return jsonify(result)
