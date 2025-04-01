@@ -103,7 +103,7 @@ export class FirstDailyPromptComponent{
                 upsert: true, // Overwrite if the file already exists
               });
 
-            this.addToFirebase(fileName);
+            await this.addToFirebase(fileName);
             if (error) {
               console.error('Error uploading file:', error.message);
             } else {
@@ -155,10 +155,10 @@ export class FirstDailyPromptComponent{
 
   async addToFirebase (fileName: string): Promise<void> {
     const photoData = {
-      groupData: this.groupData,
-      dateUpload: Date.now(),
-      user: this.currentUser,
-      fileName: fileName,
+      groupId: this.groupData.id,
+      datePhoto: Date.now(),
+      userId: this.currentUser.id,
+      supabaseUrl: fileName,
     };
     const groupRef = collection(this.firestore, 'photos');
     await addDoc(groupRef, photoData);
