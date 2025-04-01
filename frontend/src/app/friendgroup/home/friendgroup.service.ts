@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Firestore} from "@angular/fire/firestore";
+import {createClient} from "@supabase/supabase-js";
 
 @Injectable({
   providedIn: 'root'

@@ -11,7 +11,7 @@ import {addIcons} from "ionicons";
 import {checkmarkOutline, cloudUploadOutline} from "ionicons/icons";
 import {createClient} from "@supabase/supabase-js";
 import {GroupService} from "../services/group.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {NgStyle} from "@angular/common";
 
 const supabase = createClient('https://raurqxjoiivhjjbhoojn.supabase.co',
@@ -49,12 +49,10 @@ export class ImageEditorPage implements AfterViewInit {
   private image = new Image();
   public drawColor: string = '#000000';
   public brushSize: number = 5;
-  public prompt:string = "Un chat et dessine un coeur";
+  public prompt: string = JSON.stringify(localStorage.getItem("prompt"));
 
-  constructor(private groupService: GroupService,private router:Router) {
-    addIcons({
-      checkmarkOutline,cloudUploadOutline
-    })
+  constructor(private groupService: GroupService, private router: Router, private route: ActivatedRoute) {
+    addIcons({ checkmarkOutline, cloudUploadOutline });
   }
 
   ngAfterViewInit(): void {
@@ -68,7 +66,27 @@ export class ImageEditorPage implements AfterViewInit {
 
     // Prevent scrolling when touching the canvas
     canvas.addEventListener('touchmove', (event) => event.preventDefault(), { passive: false });
+
+    // Load the image from the query parameter
+    this.route.queryParams.subscribe((params: { [x: string]: any; }) => {
+      const imageUrl = params['imageUrl'];
+      if (imageUrl) {
+        this.loadImageFromUrl(imageUrl);
+      }
+    });
   }
+
+  loadImageFromUrl(imageUrl: string): void {
+    this.image.crossOrigin = 'Anonymous'; // Set crossOrigin attribute
+    this.image.src = imageUrl;
+    this.image.onload = () => {
+      this.redrawCanvas();
+    };
+    this.image.onerror = () => {
+      console.error('Failed to load image with CORS enabled.');
+    };
+  }
+
 
   startDrawing(event: MouseEvent | TouchEvent) {
     const touch = event instanceof TouchEvent ? event.touches[0] : event;
@@ -164,9 +182,8 @@ export class ImageEditorPage implements AfterViewInit {
               } catch (err) {
                 console.error('Error during upload:', err);
               }
-            }
-            else {
-              console.error("Not valid picture")
+            } else {
+              console.error("Not valid picture");
             }
             await this.router.navigate(['/validation'], {
               state: {
@@ -175,7 +192,8 @@ export class ImageEditorPage implements AfterViewInit {
                 isImageOkay: imageOk,
               },
             });
-          }});
+          }
+        });
       }
     }, 'image/png');
 

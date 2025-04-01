@@ -36,7 +36,7 @@ export class FirstDailyPromptComponent{
   @Input() category: string = 'Photographie et dessin';
   @Input() categoryId: string = 'photo';
   @Input() groupData: any = {};
-
+  @Input() imageUrl!:string;
   score: Score = new class implements Score {
     match = "";
     similarity_score= 0;
@@ -164,7 +164,7 @@ export class FirstDailyPromptComponent{
     await addDoc(groupRef, photoData);
   }
 
-  constructor(private groupService:GroupService,private router:Router,private auth: Auth,private firestore: Firestore) {
+  constructor(private groupService:GroupService, protected router:Router, private auth: Auth, private firestore: Firestore) {
     addIcons({ 'camera': camera });
     addIcons({'microphone': mic})
   }
