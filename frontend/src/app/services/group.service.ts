@@ -30,11 +30,11 @@ export class GroupService {
   }
    validateImage(formData: FormData): Observable<Score> {
     console.log(formData);
-    this.http.post<any>(environment.apiUrl + '/validate-image',formData).subscribe({
+    this.http.post<any>(environment.apiUrl + 'validate-image',formData).subscribe({
       next: (result) => {
         console.log(result);
       }
     });
-    return this.http.post<any>(environment.apiUrl + '/validate-image',formData);
+    return this.http.post<any>(environment.apiUrl + 'validate-image',formData);
   }
 }

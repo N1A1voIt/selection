@@ -39,6 +39,7 @@ export class FriendGroupPage  implements OnInit {
     this.groupService.getPrompt().subscribe({
       next:data =>{
         this.actualPrompt = data.detail;
+        localStorage.setItem('prompt', JSON.stringify(this.actualPrompt));
         this.category = data.theme;
       }
     });

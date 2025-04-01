@@ -76,7 +76,7 @@ export class FirstDailyPromptComponent{
       const formData = new FormData();
       const fileName = `photo-${Date.now()}.jpg`;
       formData.append('image', fileBlob, fileName);
-      formData.append('prompt', "Un chat");
+      formData.append('prompt', this.actualPrompt);
       let imageOk = false;
 
       this.groupService.validateImage(formData).subscribe({
