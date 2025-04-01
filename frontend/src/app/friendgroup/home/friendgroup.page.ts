@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import { KapiHeaderComponent } from "../../kapi/header/kapi.header.component";
 import {FirstDailyPromptComponent} from "./prompts/firstDaily/first.daily.prompt.component";
 import {SecondDailyPromptComponent} from "./prompts/secondDaily/second.daily.prompt.component";
@@ -33,7 +33,7 @@ const supabase = createClient('https://raurqxjoiivhjjbhoojn.supabase.co',
   standalone: true,
 })
 
-export class FriendGroupPage  implements OnInit {
+export class FriendGroupPage  implements OnInit, AfterViewInit {
   groupId: string = '';
   groupData: any;
   streak: number = 0;
@@ -44,9 +44,10 @@ export class FriendGroupPage  implements OnInit {
   everyoneHasUploaded = false;
   constructor(private groupService: GroupService,private route: ActivatedRoute, private firestore: Firestore, private friendGroupService: FriendgroupService) { }
 
+
   randomImageUrl!:string;
 
-  getGroupDetails() {
+  async getGroupDetails() {
     const groupRef = doc(this.firestore, `groups/${this.groupId}`);
     docData(groupRef).subscribe(data => {
       this.groupData = data;
@@ -57,7 +58,7 @@ export class FriendGroupPage  implements OnInit {
     console.log("belloooo");
     await this.fetchRandomImage();
     this.groupId = this.route.snapshot.paramMap.get('id')!;
-    this.getGroupDetails();
+    await this.getGroupDetails();
     this.groupService.getPrompt().subscribe({
       next:data =>{
         this.actualPrompt = data.detail;
@@ -72,7 +73,10 @@ export class FriendGroupPage  implements OnInit {
       }
     });
 
-    this.streak = this.friendGroupService.streakVerifier();
+  }
+
+  async ngAfterViewInit(): Promise<void> {
+    this.streak = await this.friendGroupService.streakVerifier(this.groupData);
   }
 
   async fetchRandomImage(): Promise<void> {

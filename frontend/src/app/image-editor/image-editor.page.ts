@@ -9,10 +9,13 @@ import {FormsModule} from "@angular/forms";
 import {IonIcon} from "@ionic/angular/standalone";
 import {addIcons} from "ionicons";
 import {checkmarkOutline, cloudUploadOutline} from "ionicons/icons";
-import {createClient} from "@supabase/supabase-js";
+import {createClient, User} from "@supabase/supabase-js";
 import {GroupService} from "../services/group.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NgStyle} from "@angular/common";
+import {addDoc, collection, Firestore, getDocs, updateDoc} from "@angular/fire/firestore";
+import {getAuth} from "firebase/auth";
+import {onAuthStateChanged} from "@angular/fire/auth";
 
 const supabase = createClient('https://raurqxjoiivhjjbhoojn.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJhdXJxeGpvaWl2aGpqYmhvb2puIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MzQzMDEzNSwiZXhwIjoyMDU5MDA2MTM1fQ.5CBJ0_3fOk0Ze06SU5w9-1yVkHQdq8nRzSbNZAhnhU4',
@@ -51,7 +54,9 @@ export class ImageEditorPage implements AfterViewInit {
   public brushSize: number = 5;
   public prompt: string = JSON.stringify(localStorage.getItem("secondPrompt"));
 
-  constructor(private groupService: GroupService, private router: Router, private route: ActivatedRoute) {
+  currentUser: any = {}
+
+  constructor(private groupService: GroupService, private router: Router, private route: ActivatedRoute, private firestore: Firestore) {
     addIcons({ checkmarkOutline, cloudUploadOutline });
   }
 
@@ -147,7 +152,7 @@ export class ImageEditorPage implements AfterViewInit {
   }
 
   saveImage() {
-    const fileName = `photo-${Date.now()}.jpg`;
+    const fileName = `edit-${Date.now()}.jpg`;
     const canvas = this.canvasRef.nativeElement;
     canvas.toBlob(async (blob) => {
       let imageOk = false;
@@ -169,7 +174,7 @@ export class ImageEditorPage implements AfterViewInit {
               try {
                 const { data, error } = await supabase
                   .storage
-                  .from('photos')
+                  .from('edits')
                   .upload(fileName, fileBlob, {
                     cacheControl: '3600',
                     upsert: true,
@@ -186,6 +191,9 @@ export class ImageEditorPage implements AfterViewInit {
             } else {
               console.error("Not valid picture");
             }
+
+            await this.updateFirebase(fileName);
+
             await this.router.navigate(['/validation'], {
               state: {
                 image: URL.createObjectURL(blob),
@@ -203,6 +211,42 @@ export class ImageEditorPage implements AfterViewInit {
     link.href = image;
     link.download = 'drawing.png';
     link.click();
+  }
+
+  async getCurrentUser() {
+    const authInstance = getAuth(); // Get Firebase Auth instance
+
+    // @ts-ignore
+    onAuthStateChanged(authInstance, (user: User | null) => {
+      if (user) {
+        this.currentUser = user;
+        console.log("ETO OHHHHH", this.currentUser);
+      } else {
+        console.log("No user logged in");
+      }
+    });
+  }
+
+  async updateFirebase (fileName: string): Promise<void> {
+    await this.getCurrentUser();
+    const userToFireBase = {
+      email: this.currentUser.email,
+      username: this.currentUser.displayName
+    }
+    const photoRef = collection(this.firestore, 'photos');
+    const querySnapshot = await getDocs(photoRef);
+    querySnapshot.forEach( async (doc) => {
+      const photoData = doc.data();
+      // @ts-ignore
+      if (photoData.userId.email === userToFireBase.email) {
+        const updatedData = {
+          ...photoData,
+          detailUrl: fileName,
+          isOkay: true
+        };
+        await updateDoc(doc.ref, updatedData);
+      }
+    });
   }
 
   loadImage(event: Event) {
