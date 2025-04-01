@@ -90,7 +90,7 @@ export class FirstDailyPromptComponent{
           this.score.similarity_score = result.similarity_score;
           this.score.match = result.match;
 
-          if (this.score.similarity_score > 0.5) {
+          if (this.score.similarity_score > 0.2) {
             imageOk = true;
             console.log(`${this.score.similarity_score}%`);
             console.log("match");
@@ -99,11 +99,11 @@ export class FirstDailyPromptComponent{
               .storage
               .from('photos')  // Replace 'photos' with your Supabase storage bucket
               .upload(fileName, fileBlob, {
-                cacheControl: '3600', // Cache for 1 hour
+                cacheControl: '0', // Cache for 1 hour
                 upsert: true, // Overwrite if the file already exists
               });
 
-            await this.addToFirebase(fileName);
+            //await this.addToFirebase(fileName);
             if (error) {
               console.error('Error uploading file:', error.message);
             } else {
