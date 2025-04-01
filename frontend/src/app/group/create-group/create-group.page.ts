@@ -7,6 +7,7 @@ import {Firestore, collection, collectionData, addDoc} from '@angular/fire/fires
 import {addIcons} from "ionicons";
 import {addCircleOutline, arrowBack} from "ionicons/icons";
 import {query} from "@angular/animations";
+import {GroupService} from "../../services/group.service";
 export interface Users {
   username:string,
   email:string,
@@ -40,7 +41,7 @@ export class CreateGroupPage implements OnInit {
     );
   }
 
-  constructor(private firestore:Firestore) {
+  constructor(private firestore:Firestore,private groupService: GroupService) {
     addIcons({
       arrowBack,
       addCircleOutline
@@ -74,6 +75,21 @@ export class CreateGroupPage implements OnInit {
     return collectionData(usersRef);
   }
 
+  async getGroupPrompt(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      this.groupService.getPrompt().subscribe({
+        next: (data) => {
+          localStorage.setItem('prompt', JSON.stringify(data.detail));
+          resolve(data.detail); // Resolve the promise with the updated prompt
+        },
+        error: (err) => {
+          reject(err); // Reject the promise in case of error
+        }
+      });
+    });
+  }
+
+
   groupName: string = '';
 
   async createGroup() {
@@ -91,6 +107,7 @@ export class CreateGroupPage implements OnInit {
     const groupData = {
       name: this.groupName,
       members: selectedUsers.map(user => ({ username: user.username, email: user.email, photo: "" })),
+      prompt: await this.getGroupPrompt(),
       createdAt: new Date().toISOString(),
     };
 
@@ -98,7 +115,6 @@ export class CreateGroupPage implements OnInit {
       console.log(groupData)
       const groupRef = collection(this.firestore, 'groups');
       await addDoc(groupRef, groupData);
-      alert("Group created successfully!");
 
       this.groupName = '';
       this.showButtons = false;

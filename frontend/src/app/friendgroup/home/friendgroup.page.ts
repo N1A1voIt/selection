@@ -54,21 +54,14 @@ export class FriendGroupPage  implements OnInit {
   }
 
   async ngOnInit(){
-    console.log("belloooo");
     await this.fetchRandomImage();
     this.groupId = this.route.snapshot.paramMap.get('id')!;
     this.getGroupDetails();
-    this.groupService.getPrompt().subscribe({
+    this.actualPrompt = localStorage.getItem("prompt") ? JSON.parse(<string>localStorage.getItem("prompt")) : "";
+    this.groupService.getModifPrompt(this.actualPrompt).subscribe({
       next:data =>{
-        this.actualPrompt = data.detail;
-        localStorage.setItem('prompt', JSON.stringify(this.actualPrompt));
-        this.category = data.theme;
-        this.groupService.getModifPrompt(this.actualPrompt).subscribe({
-          next:data =>{
-            this.secondPrompt = data.detail;
-            localStorage.setItem('secondPrompt', JSON.stringify(this.secondPrompt));
-          }
-        });
+        this.secondPrompt = data.detail;
+        localStorage.setItem('secondPrompt', JSON.stringify(this.secondPrompt));
       }
     });
 
