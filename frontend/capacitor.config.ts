@@ -2,7 +2,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'io.ionic.starter',
-  appName: 'frontend',
+  appName: 'Kapic',
   webDir: 'www/browser',
   android: {
     minWebViewVersion: 22,

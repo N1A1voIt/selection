@@ -4,7 +4,7 @@ import { IonContent, IonButton, IonIcon, IonToolbar, IonTitle, IonHeader } from 
 import { FormsModule } from '@angular/forms';
 import {KapiComponent} from "../kapi/kapi.component";
 import {Score} from "../interfaces/theme";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink, RouterLinkActive} from "@angular/router";
 
 
 @Component({
@@ -12,7 +12,7 @@ import {ActivatedRoute, Router} from "@angular/router";
   templateUrl: './validation.page.html',
   styleUrls: ['./validation.page.scss'],
   standalone: true,
-    imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonIcon, IonButton, CommonModule, FormsModule, KapiComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonIcon, IonButton, CommonModule, FormsModule, KapiComponent, RouterLink, RouterLinkActive]
 })
 export class ValidationPage implements OnInit {
   image: string | undefined;

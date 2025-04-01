@@ -28,19 +28,19 @@ export class RecapPageComponent implements OnInit {
 
   images: { alt: string; url: any }[] = [
     {
-      url: 'https://picsum.photos/id/1018/800/600',
+      url: '',
       alt: 'Mountain landscape'
     },
     {
-      url: 'https://picsum.photos/id/1015/800/600',
+      url: '',
       alt: 'River through mountains'
     },
     {
-      url: 'https://picsum.photos/id/1019/800/600',
+      url: '',
       alt: 'Forest landscape'
     },
     {
-      url: 'https://picsum.photos/id/1039/800/600',
+      url: '',
       alt: 'Lake view'
     }
   ];

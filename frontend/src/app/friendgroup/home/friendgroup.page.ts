@@ -63,14 +63,15 @@ export class FriendGroupPage  implements OnInit {
         this.actualPrompt = data.detail;
         localStorage.setItem('prompt', JSON.stringify(this.actualPrompt));
         this.category = data.theme;
+        this.groupService.getModifPrompt(this.actualPrompt).subscribe({
+          next:data =>{
+            this.secondPrompt = data.detail;
+            localStorage.setItem('secondPrompt', JSON.stringify(this.secondPrompt));
+          }
+        });
       }
     });
 
-    this.groupService.getModifPrompt(this.actualPrompt).subscribe({
-      next:data =>{
-        this.secondPrompt = data.theme +" "+data.detail;
-      }
-    });
     this.streak = this.friendGroupService.streakVerifier();
   }
 

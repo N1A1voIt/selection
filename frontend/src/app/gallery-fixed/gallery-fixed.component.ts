@@ -1,10 +1,10 @@
 import {ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
-import * as THREE from "three";
 import {Reflector} from "three-stdlib";
-// import * as TWEEN from '@tweenjs/tween.js';
+import * as TWEEN from '@tweenjs/tween.js';
 import { Group as TweenGroup, Easing, Tween } from '@tweenjs/tween.js';
 import {Observable} from "rxjs";
 import {createClient} from "@supabase/supabase-js";
+import * as THREE from 'three';
 const supabase = createClient('https://raurqxjoiivhjjbhoojn.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJhdXJxeGpvaWl2aGpqYmhvb2puIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MzQzMDEzNSwiZXhwIjoyMDU5MDA2MTM1fQ.5CBJ0_3fOk0Ze06SU5w9-1yVkHQdq8nRzSbNZAhnhU4',
   {
@@ -68,7 +68,7 @@ export class GalleryFixedComponent implements OnInit {
     });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.toneMapping = THREE.NeutralToneMapping;
+    this.renderer.toneMapping = THREE.NoToneMapping;
     this.renderer.toneMappingExposure = 2;
     // this.renderer.setClearColor(0xffffff, 0.01)
     this.root = new THREE.Object3D();
@@ -76,8 +76,8 @@ export class GalleryFixedComponent implements OnInit {
   }
 
   private createGallery(): void {
-    const leftArrowImage = this.textureLoader.load(`left.png`);
-    const rightArrowImage = this.textureLoader.load(`right.png`);
+    const leftArrowImage = this.textureLoader.load(`assets/left.png`);
+    const rightArrowImage = this.textureLoader.load(`assets/right.png`);
     for (let i = 0; i < 6; i++) {
       const image = this.textureLoader.load(this.images[i]);
 

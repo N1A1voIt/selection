@@ -125,28 +125,20 @@ def validate_image():
 @app.route('/generate-theme', methods=['GET'])
 def generate_theme():
     themes = [
-        'une fontaine dans un parc',
         'des avions dans le aéroport',
-        'une église historique',
-        'le Lycée Galliéni',
-        'une boulangerie traditionnelle',
-        'des enfants qui jouent',
-        'un arbre fruitier',
-        'une place de village',
-        'des oiseaux en vol',
-        'un banc public sous la pluie',
-        'une vitrine de magasin',
-        'une rizière en escalier',
-        'une vieille voiture classique',
-        'une ruelle étroite',
+        'un chat',
         'un café au lait et un croissant',
-        'des fleurs sauvages dans un pré',
         'le Rova de Manjakamiadana',
-        'une oiseau dans le ciel',
-        'un musicien de rue',
-        'une fenêtre avec des volets bleus',
-        'un marché aux puces',
-        'des parasols sur la plage',
+        'un musicien de rue'
+    ]
+    themes2 = [
+        'un selfie',
+        'un ordinateur',
+        'un telephone',
+        'une chaise',
+        'des chaussures',
+        'une personne qui sourit',
+        'un clavier',
         'une salle de classe'
     ]
 

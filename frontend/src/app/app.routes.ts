@@ -53,8 +53,10 @@ export const routes: Routes = [
     path: 'list-group',
     loadComponent: () => import('./group/list-group/list-group.page').then( m => m.ListGroupPage)
   },
-
-
+  {
+    path: 'gallery',
+    loadComponent: () => import('./gallery-fixed/gallery-fixed.component').then(m => m.GalleryFixedComponent)
+  },
 
 ];
 

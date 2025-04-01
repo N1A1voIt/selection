@@ -49,7 +49,7 @@ export class ImageEditorPage implements AfterViewInit {
   private image = new Image();
   public drawColor: string = '#000000';
   public brushSize: number = 5;
-  public prompt: string = JSON.stringify(localStorage.getItem("prompt"));
+  public prompt: string = JSON.stringify(localStorage.getItem("secondPrompt"));
 
   constructor(private groupService: GroupService, private router: Router, private route: ActivatedRoute) {
     addIcons({ checkmarkOutline, cloudUploadOutline });
@@ -159,11 +159,12 @@ export class ImageEditorPage implements AfterViewInit {
         formData.append('image', fileBlob, fileName);
         formData.append('prompt', this.prompt);
 
+        console.log(formData);
         this.groupService.validateImage(formData).subscribe({
           next: async (result) => {
             console.log('Result from validateImage:', result);
 
-            if (result.similarity_score > 0.5) {
+            if (result.similarity_score > 0.2) {
               imageOk = true;
               try {
                 const { data, error } = await supabase
