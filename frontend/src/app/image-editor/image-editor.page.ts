@@ -13,6 +13,7 @@ import {createClient} from "@supabase/supabase-js";
 import {GroupService} from "../services/group.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NgStyle} from "@angular/common";
+import {KapiComponent} from "../kapi/kapi.component";
 
 const supabase = createClient('https://raurqxjoiivhjjbhoojn.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJhdXJxeGpvaWl2aGpqYmhvb2puIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MzQzMDEzNSwiZXhwIjoyMDU5MDA2MTM1fQ.5CBJ0_3fOk0Ze06SU5w9-1yVkHQdq8nRzSbNZAhnhU4',
@@ -31,7 +32,8 @@ const supabase = createClient('https://raurqxjoiivhjjbhoojn.supabase.co',
   imports: [
     FormsModule,
     IonIcon,
-    NgStyle
+    NgStyle,
+    KapiComponent
 
   ]
 })
@@ -49,7 +51,7 @@ export class ImageEditorPage implements AfterViewInit {
   private image = new Image();
   public drawColor: string = '#000000';
   public brushSize: number = 5;
-  public prompt: string = JSON.stringify(localStorage.getItem("secondPrompt"));
+  public prompt: string = localStorage.getItem("secondPrompt") ?? "Placeholder prompt";
 
   constructor(private groupService: GroupService, private router: Router, private route: ActivatedRoute) {
     addIcons({ checkmarkOutline, cloudUploadOutline });
