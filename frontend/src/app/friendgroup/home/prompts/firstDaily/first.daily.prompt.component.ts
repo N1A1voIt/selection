@@ -10,7 +10,7 @@ import {GroupService} from "../../../../services/group.service";
 import {data} from "autoprefixer";
 import {Score} from "../../../../interfaces/theme";
 import { Router } from '@angular/router';
-import {addDoc, collection, Firestore} from "@angular/fire/firestore";
+import {addDoc, collection, collectionData, Firestore, query} from "@angular/fire/firestore";
 import {Auth, onAuthStateChanged} from "@angular/fire/auth";
 import {getAuth} from "firebase/auth";
 import { CameraComponent } from "../../../../components/camera/camera.component";
@@ -105,7 +105,7 @@ export class FirstDailyPromptComponent{
                 upsert: true, // Overwrite if the file already exists
               });
 
-            //await this.addToFirebase(fileName);
+            await this.addToFirebase(fileName);
             if (error) {
               console.error('Error uploading file:', error.message);
             } else {
@@ -128,7 +128,7 @@ export class FirstDailyPromptComponent{
       });
 
 
-      console.log("bello");
+      console.log("bello beh");
 
       // const fileName = `photo-${Date.now()}.jpg`;
       // const filePath = await this.supabaseService.uploadImage(fileBlob, fileName);
@@ -141,26 +141,46 @@ export class FirstDailyPromptComponent{
     }
   }
 
-  getCurrentUser() {
+  async getCurrentUser() {
     const authInstance = getAuth(); // Get Firebase Auth instance
 
     // @ts-ignore
     onAuthStateChanged(authInstance, (user: User | null) => {
-      console.log(user);
       if (user) {
         this.currentUser = user;
+        console.log("ETO OHHHHH", this.currentUser);
       } else {
         console.log("No user logged in");
       }
     });
   }
 
+  // getUserGroups() {
+  //   const groupsRef = collection(this.firestore, 'users');
+  //   const groupsQuery = query(groupsRef);
+  //
+  //   collectionData(groupsQuery, { idField: 'id' }).subscribe({
+  //     next: data => {
+  //       this.currentUser = data.filter(group =>
+  //         group['members'].some((member: { email: string; }) => member.email === this.currentUserEmail)
+  //       );
+  //     },
+  //     error: error => console.log('Error fetching user:', error)
+  //   });
+  // }
+
   async addToFirebase (fileName: string): Promise<void> {
+    await this.getCurrentUser();
+    const userToFireBase = {
+      email: this.currentUser.email,
+      username: this.currentUser.displayName
+    }
     const photoData = {
-      groupId: this.groupData.id,
-      datePhoto: Date.now(),
-      userId: this.currentUser.id,
-      supabaseUrl: fileName,
+      groupId: this.groupData,
+      userId: userToFireBase,
+      photoUrl: fileName,
+      detailUrl: "vide",
+      isOkay: false
     };
     const groupRef = collection(this.firestore, 'photos');
     await addDoc(groupRef, photoData);
