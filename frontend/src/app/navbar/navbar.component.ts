@@ -16,6 +16,10 @@ import {
 import {IonIcon} from "@ionic/angular/standalone";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {NgClass} from "@angular/common";
+import { HomeComponent } from "../components/home/home.component";
+import { UserComponent } from "../components/user/user.component";
+import { UsersComponent } from "../components/users/users.component";
+import { MenuBurgerComponent } from "../components/menu-burger/menu-burger.component";
 
 @Component({
   selector: 'app-navbar',
@@ -25,8 +29,12 @@ import {NgClass} from "@angular/common";
     IonIcon,
     RouterLink,
     RouterLinkActive,
-    NgClass
-  ]
+    NgClass,
+    HomeComponent,
+    UserComponent,
+    UsersComponent,
+    MenuBurgerComponent
+]
 })
 export class NavbarComponent {
 
