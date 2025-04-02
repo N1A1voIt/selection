@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {RecapComponent} from "../recap/recap.component";
 import {KapiHeaderComponent} from "../../kapi/header/kapi.header.component";
-import {Router} from "@angular/router";
+import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {SupabaseService} from "../../services/supabase.service";
 import {createClient} from "@supabase/supabase-js";
 const supabase = createClient('https://raurqxjoiivhjjbhoojn.supabase.co',
@@ -19,7 +19,9 @@ const supabase = createClient('https://raurqxjoiivhjjbhoojn.supabase.co',
   styleUrls: ['./recap.page.component.scss'],
   imports: [
     RecapComponent,
-    KapiHeaderComponent
+    KapiHeaderComponent,
+    RouterLink,
+    RouterLinkActive
   ]
 })
 export class RecapPageComponent implements OnInit {
