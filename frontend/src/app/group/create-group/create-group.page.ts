@@ -9,6 +9,7 @@ import {addCircleOutline, arrowBack} from "ionicons/icons";
 import {query} from "@angular/animations";
 import {GroupService} from "../../services/group.service";
 import {Router} from "@angular/router";
+import {SpinnerComponent} from "../../shared/spinner/spinner.component";
 export interface Users {
   username:string,
   email:string,
@@ -20,14 +21,14 @@ export interface Users {
   templateUrl: './create-group.page.html',
   styleUrls: ['./create-group.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonIcon]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonIcon, SpinnerComponent]
 })
 export class CreateGroupPage implements OnInit {
   users:Users[] = [];
   showButtons:boolean = false;
   filteredUsers: Users[] = [];
   searchQuery: string = '';
-
+  isLoading:boolean = false;
   filterUsers() {
     const query = this.searchQuery.toLowerCase().trim();
 
@@ -57,13 +58,16 @@ export class CreateGroupPage implements OnInit {
 
 
   ngOnInit() {
+    this.isLoading = true;
     this.getUsers().subscribe({
       next: data => {
         this.users = <Users[]>data;
         this.filteredUsers = this.users;
         console.log(data);
+        this.isLoading = false;
       },error:error => {
         console.log(error);
+        this.isLoading = false;
       }
     })
   }

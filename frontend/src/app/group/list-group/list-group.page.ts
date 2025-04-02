@@ -9,19 +9,20 @@ import {User} from "@supabase/supabase-js";
 import {addIcons} from "ionicons";
 import {addCircleOutline, arrowBack} from "ionicons/icons";
 import {Router} from "@angular/router";
+import {SpinnerComponent} from "../../shared/spinner/spinner.component";
 
 @Component({
   selector: 'app-list-group',
   templateUrl: './list-group.page.html',
   styleUrls: ['./list-group.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonIcon]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonIcon, SpinnerComponent]
 })
 export class ListGroupPage implements OnInit, OnDestroy {
   users: any[] = [];
   userGroups: any[] = [];
   currentUserEmail!: string;
-
+  isLoading:boolean = false;
 
   goToGroup(group: any) {
     // console.log(group);
@@ -46,15 +47,17 @@ export class ListGroupPage implements OnInit, OnDestroy {
 
   getCurrentUser() {
     const authInstance = getAuth(); // Get Firebase Auth instance
-
+    this.isLoading = true;
     // @ts-ignore
     onAuthStateChanged(authInstance, (user: User | null) => {
       console.log(user);
       if (user) {
         this.currentUserEmail = user.email || '';
         this.getUserGroups();
+        this.isLoading = false;
       } else {
         console.log("No user logged in");
+        this.isLoading = false;
       }
     });
   }
@@ -78,14 +81,18 @@ export class ListGroupPage implements OnInit, OnDestroy {
 
     const groupsRef = collection(this.firestore, 'groups');
     const groupsQuery = query(groupsRef);
-
+    this.isLoading = true;
     collectionData(groupsQuery, { idField: 'id' }).subscribe({
       next: data => {
         this.userGroups = data.filter(group =>
           group['members'].some((member: { email: string; }) => member.email === this.currentUserEmail)
         );
+        this.isLoading = false;
       },
-      error: error => console.log('Error fetching groups:', error)
+      error: error => {
+        this.isLoading = false;
+        console.log('Error fetching groups:', error)
+      }
     });
   }
 

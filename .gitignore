@@ -160,3 +160,4 @@ cython_debug/
 #.idea/
 /python/.idea
 /frontend/android
+/python/tmp
