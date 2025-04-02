@@ -4,7 +4,8 @@
     <img src="assets/imgs/img.png" class="object-cover w-full h-full" alt="" srcset="">
   </div>
   <div class="p-3">
-
+    <app-spinner *ngIf="isLoading"></app-spinner>
+<!--    <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>-->
   </div>
   <div class="flex flex-col w-full gap-5">
     <div class="px-4 w-full">

@@ -18,18 +18,20 @@ import {addIcons} from "ionicons";
 import {logoFacebook, logoGoogle, logoTwitter} from "ionicons/icons";
 import {SignupPage} from "../signup/signup.page";
 import {doc, getFirestore, setDoc} from "@angular/fire/firestore";
+import {NgxSpinnerComponent} from "ngx-spinner";
+import {SpinnerComponent} from "../../shared/spinner/spinner.component";
 
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.page.html',
   styleUrls: ['./signin.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, InputDSquareComponent, IonIcon, ReactiveFormsModule]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, InputDSquareComponent, IonIcon, ReactiveFormsModule, NgxSpinnerComponent, SpinnerComponent]
 })
 export class SigninPage implements OnInit {
   formGroup:FormGroup;
   errorMessage: string = '';
-
+  isLoading:boolean = false;
   constructor(private router:Router,fb:FormBuilder) {
     this.formGroup = fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -63,6 +65,7 @@ export class SigninPage implements OnInit {
 
     signInWithPopup(auth, provider)
       .then((result) => {
+        this.isLoading = true;
         console.log(result.user);
         return result.user;
       })
@@ -71,8 +74,10 @@ export class SigninPage implements OnInit {
         let idToken = await user.getIdToken();
         console.log('ID Token:',idToken);
         localStorage.setItem('idToken', JSON.stringify(idToken));
+        this.isLoading = false;
         this.router.navigate(['/intro']);
       }).catch((error) => {
+        this.isLoading = false;
         console.error('Authentication error:', error);
         alert(error.message);
       });
@@ -106,4 +111,6 @@ export class SigninPage implements OnInit {
         this.errorMessage = error.message;
       });
   }
+
+  protected readonly logoFacebook = logoFacebook;
 }
