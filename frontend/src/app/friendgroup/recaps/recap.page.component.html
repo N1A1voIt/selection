@@ -4,6 +4,12 @@
     <h3 class="text-lg mb-2 font-bold text-mocha">Recap de la journée</h3>
     <app-recap [images]="images" class="pl-8"></app-recap>
   </div>
+  <div class="flex items-center justify-center pt-[50px] gap-10">
+    <a [routerLink]="['/gallery']" [routerLinkActive]="'active'" class="w-[250px] px-5 py-2.5 bg-[#b27156] border-none rounded-2xl text-white text-center">
+      Voir Galerie
+    </a>
+
+  </div>
 </div>
 
 <ng-template #friendgroupName>

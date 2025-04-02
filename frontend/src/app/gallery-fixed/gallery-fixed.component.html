@@ -1,4 +1,7 @@
-<canvas #rendererCanvas></canvas>
+<div class="absolute z-40 bg-[#b27156] rounded-full flex flex-row justify-center items-center m-4 w-20 h-20" (click)="goBack()">
+  <ion-icon name="arrow-back" class="relative z-50 text-white" size="large"></ion-icon>
+</div>
+<canvas #rendererCanvas class="relative z-0"></canvas>
 <div class="info-overlay">
   <h1 id="title">{{ currentTitle }}</h1>
   <p id="artist">{{ currentArtist }}</p>

@@ -1,10 +1,12 @@
-import {ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Reflector} from "three-stdlib";
 import * as TWEEN from '@tweenjs/tween.js';
 import { Group as TweenGroup, Easing, Tween } from '@tweenjs/tween.js';
 import {Observable} from "rxjs";
 import {createClient} from "@supabase/supabase-js";
 import * as THREE from 'three';
+import {IonIcon} from "@ionic/angular/standalone";
+import {Location} from "@angular/common";
 const supabase = createClient('https://raurqxjoiivhjjbhoojn.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJhdXJxeGpvaWl2aGpqYmhvb2puIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MzQzMDEzNSwiZXhwIjoyMDU5MDA2MTM1fQ.5CBJ0_3fOk0Ze06SU5w9-1yVkHQdq8nRzSbNZAhnhU4',
   {
@@ -17,11 +19,13 @@ const supabase = createClient('https://raurqxjoiivhjjbhoojn.supabase.co',
 @Component({
   selector: 'app-gallery-fixed',
   standalone: true,
-  imports: [],
+  imports: [
+    IonIcon
+  ],
   templateUrl: './gallery-fixed.component.html',
   styleUrl: './gallery-fixed.component.css'
 })
-export class GalleryFixedComponent implements OnInit {
+export class GalleryFixedComponent implements OnInit, OnDestroy {
   @ViewChild('rendererCanvas', { static: true })
   rendererCanvas!: ElementRef<HTMLCanvasElement>;
   titleOpacity = 1;
@@ -42,7 +46,7 @@ export class GalleryFixedComponent implements OnInit {
   currentTitle = '';
   currentArtist = '';
 
-  constructor(private cd:ChangeDetectorRef) {
+  constructor(private cd:ChangeDetectorRef, private location: Location) {
   }
   private currentIndex = 0;
 
@@ -52,6 +56,10 @@ export class GalleryFixedComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.cleanUp();
+  }
+
+  goBack(): void {
+    this.location.back(); // Navigates to the previous page
   }
 
   private initThreeJS(): void {
