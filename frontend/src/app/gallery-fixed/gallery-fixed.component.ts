@@ -7,6 +7,8 @@ import {createClient} from "@supabase/supabase-js";
 import * as THREE from 'three';
 import {IonIcon} from "@ionic/angular/standalone";
 import {Location} from "@angular/common";
+import { addIcons } from 'ionicons';
+import {arrowBack} from "ionicons/icons";
 const supabase = createClient('https://raurqxjoiivhjjbhoojn.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJhdXJxeGpvaWl2aGpqYmhvb2puIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MzQzMDEzNSwiZXhwIjoyMDU5MDA2MTM1fQ.5CBJ0_3fOk0Ze06SU5w9-1yVkHQdq8nRzSbNZAhnhU4',
   {
@@ -47,6 +49,9 @@ export class GalleryFixedComponent implements OnInit, OnDestroy {
   currentArtist = '';
 
   constructor(private cd:ChangeDetectorRef, private location: Location) {
+    addIcons({
+      arrowBack
+    })
   }
   private currentIndex = 0;
 
