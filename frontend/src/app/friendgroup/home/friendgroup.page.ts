@@ -1,20 +1,20 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import { KapiHeaderComponent } from "../../kapi/header/kapi.header.component";
+import {KapiHeaderComponent} from "../../kapi/header/kapi.header.component";
 import {FirstDailyPromptComponent} from "./prompts/firstDaily/first.daily.prompt.component";
 import {SecondDailyPromptComponent} from "./prompts/secondDaily/second.daily.prompt.component";
 import {NgIf} from "@angular/common";
 import {FriendgroupService} from "./friendgroup.service";
 import {FireComponent} from "../../fire/fire.component";
-import {HttpClient} from "@angular/common/http";
 import {GroupService} from "../../services/group.service";
 import {ActivatedRoute} from "@angular/router";
 import {collection, collectionData, doc, docData, Firestore, query, where} from "@angular/fire/firestore";
-import {createClient} from "@supabase/supabase-js";
-import {map, Observable} from "rxjs";
-import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import {createClient, User} from "@supabase/supabase-js";
+import {map} from "rxjs";
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import firebase from "firebase/compat";
 import CollectionReference = firebase.firestore.CollectionReference;
+import {getAuth} from "firebase/auth";
+import {onAuthStateChanged} from "@angular/fire/auth";
 
 const supabase = createClient('https://raurqxjoiivhjjbhoojn.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJhdXJxeGpvaWl2aGpqYmhvb2puIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MzQzMDEzNSwiZXhwIjoyMDU5MDA2MTM1fQ.5CBJ0_3fOk0Ze06SU5w9-1yVkHQdq8nRzSbNZAhnhU4',
@@ -49,28 +49,35 @@ export class FriendGroupPage  implements OnInit, AfterViewInit {
   category: string = "Photographie et dessin";
   categoryId: string = "musique";
   everyoneHasUploaded = false;
+  currentUser: any = {};
   constructor(private groupService: GroupService,private route: ActivatedRoute, private firestore: Firestore, private friendGroupService: FriendgroupService,private store:AngularFirestore) {
     // @ts-ignore
     this.collectionRef = collection(this.firestore, 'photos');
   }
 
 
-  randomImageUrl!:string;
-
-  async getGroupDetails() {
+  randomImageUrl!: string;
+  async getGroupDetails(): Promise<void> {
     const groupRef = doc(this.firestore, `groups/${this.groupId}`);
-    docData(groupRef).subscribe(data => {
-      this.groupData = data;
-      // @ts-ignore
-      this.actualPrompt = data['prompt'];
-      this.getRandomPhotoUrl(this.groupData['name']);
+    // Convert the observable to a promise to allow async/await
+    const groupData = await new Promise<any>((resolve, reject) => {
+      docData(groupRef).subscribe({
+        next: data => {
+          this.groupData = data;
+          // @ts-ignore
+          this.actualPrompt = data['prompt'];
+          resolve(data);
+        },
+        error: (error) => reject(error)
+      });
     });
   }
 
-   ngOnInit(){
+   async ngOnInit(){
     this.groupId = this.route.snapshot.paramMap.get('id')!;
     await this.getGroupDetails();
-    this.actualPrompt = localStorage.getItem("prompt") ? JSON.parse(<string>localStorage.getItem("prompt")) : "";
+    this.getRandomPhotoUrl(this.groupData['name']);
+     this.actualPrompt = localStorage.getItem("prompt") ? JSON.parse(<string>localStorage.getItem("prompt")) : "";
     this.groupService.getModifPrompt(this.actualPrompt).subscribe({
       next:data =>{
         this.secondPrompt = data.detail;
@@ -114,20 +121,54 @@ export class FriendGroupPage  implements OnInit, AfterViewInit {
       console.error('Error fetching random image', error);
     }
   }
-  getRandomPhotoUrl(groupName: string)  {
+   getPhotoUrl(fileName: string, bucketName: string) {
+    const { data } = supabase.storage.from(bucketName).getPublicUrl(fileName);
+    return data.publicUrl;
+  }
+
+  async getCurrentUser() {
+    const authInstance = getAuth(); // Get Firebase Auth instance
+
+    // @ts-ignore
+    onAuthStateChanged(authInstance, (user: User | null) => {
+      if (user) {
+        this.currentUser = user;
+        console.log("ETO OHHHHH", this.currentUser);
+      } else {
+        console.log("No user logged in");
+      }
+    });
+  }
+
+  async getRandomPhotoUrl(groupName: string)  {
+    await this.getCurrentUser();
     console.log(groupName)
-    const q = query(this.collectionRef, where('groupId.name', '==', "BEBNAGROUP"));
+    console.log("ETO OHHHHH", this.currentUser.email);
+    const q = query(
+      this.collectionRef,
+      where('groupId.name', '==', groupName)
+    );
     var c = collectionData(q, { idField: 'id' }).pipe(
-      map(results => (results.length > 0 ? results[0] : null))
+      map(results => results)
     );
     c.subscribe({
       next: data => {
-        if(data!=null){
-          console.log(data);
-          console.log(data['photoUrl'])
-            this.randomImageUrl= data['photoUrl'];
+        if (data && data.length > 0) {
+          console.log("ETO OHHHHH", this.currentUser.email);
+          const filteredData = data.filter(item => {
+            console.log("Checking:", item['userId']['email'], "against", this.currentUser.email);
+            return item['userId']['email'] != this.currentUser.email;
+          });
+
+          console.log("huhu",filteredData);
+          const randomIndex = Math.floor(Math.random() * filteredData.length);
+          const randomUrl = filteredData[randomIndex];
+
+          console.log("Random Photo URL:", randomUrl);
+          this.randomImageUrl = this.getPhotoUrl(randomUrl['photoUrl'], "photos");
         }
       }
     });
   }
+
 }

@@ -57,7 +57,7 @@ export class SupabaseService {
       // List all files in the "photos" bucket
       supabase
         .storage
-        .from('photos')  // "photos" is the name of the bucket
+        .from('edits')  // "photos" is the name of the bucket
         .list('', { limit: 100 })  // Empty string means no specific prefix, so it lists all files
         .then(({ data, error }) => {
           if (error) {

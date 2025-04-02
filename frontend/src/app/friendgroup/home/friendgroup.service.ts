@@ -25,7 +25,7 @@ export class FriendgroupService {
       }
     }
 
-    if(nbIsOkay === matchingDocs.length) {
+    if(nbIsOkay === matchingDocs.length && matchingDocs.length > 0) {
       return 1;
     }
     return 0;

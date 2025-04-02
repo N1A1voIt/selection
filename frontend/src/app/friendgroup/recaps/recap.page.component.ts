@@ -54,7 +54,7 @@ export class RecapPageComponent implements OnInit {
       this.images = imagesData.map((imageData) => {
         const publicUrl = supabase
           .storage
-          .from('photos')
+          .from('edits')
           .getPublicUrl(imageData.name)
         console.log('publicUrl ::: ', publicUrl);
         return {

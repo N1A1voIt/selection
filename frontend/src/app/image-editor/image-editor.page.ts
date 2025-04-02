@@ -197,7 +197,8 @@ export class ImageEditorPage implements AfterViewInit {
         const formData = new FormData();
         const fileName = `drawing-${Date.now()}.png`;
         formData.append('image', fileBlob, fileName);
-        formData.append('prompt', this.prompt);
+        console.log(localStorage.getItem("prompt")+" et "+this.prompt);
+        formData.append('prompt', localStorage.getItem("prompt")+" et "+this.prompt);
 
         console.log(formData);
         this.groupService.validateImage(formData).subscribe({
@@ -206,6 +207,7 @@ export class ImageEditorPage implements AfterViewInit {
 
             if (result.similarity_score > 0.2) {
               imageOk = true;
+              await this.updateFirebase(fileName);
               try {
                 const { data, error } = await supabase
                   .storage
@@ -223,11 +225,10 @@ export class ImageEditorPage implements AfterViewInit {
               } catch (err) {
                 console.error('Error during upload:', err);
               }
+
             } else {
               console.error("Not valid picture");
             }
-
-            await this.updateFirebase(fileName);
 
             await this.router.navigate(['/validation'], {
               state: {

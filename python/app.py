@@ -151,9 +151,7 @@ def generate_theme():
 @app.route('/generate-theme-modif', methods=['GET'])
 def generate_theme_modif():
     themes = [
-        'dessine un oiseau',
         'dessine un soleil',
-        'dessine une baleine',
         'dessine un gateau',
         'dessine une maison',
         'dessine un arbre',
@@ -167,15 +165,9 @@ def generate_theme_modif():
         'dessine une voiture',
         'dessine un robot',
         'dessine une licorne',
-        'dessine un dragon',
         'dessine un château',
-        'dessine une fusée',
-        'dessine un elfe',
         'dessine un monstre rigolo',
-        'dessine un dinosaure',
-        'dessine une sirène',
-        'dessine un avion',
-        'dessine un train'
+        'dessine un avion'
     ]
 
     # res = theme_creator.create_theme()
