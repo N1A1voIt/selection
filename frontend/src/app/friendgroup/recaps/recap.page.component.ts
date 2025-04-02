@@ -68,5 +68,5 @@ export class RecapPageComponent implements OnInit {
       console.error('Error loading images:', error);
     });
   }
-  
+
 }

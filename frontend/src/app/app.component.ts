@@ -24,7 +24,7 @@ export class AppComponent {
       if (this.router.url !== '/'){
         this.isAuth = true;
       }
-      if(this.router.url == '/gallery'){
+      if(this.router.url == '/gallery' || this.router.url == '/signin' || this.router.url == '/signup'){
         this.isAuth = false;
       }
     });
