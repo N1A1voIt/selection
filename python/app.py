@@ -134,13 +134,9 @@ def generate_theme():
     themes= [
     ' un selfie',
 	' un croissant et un café au alit',
-	' le Rova de Manjakamiadana',
-	' la plage',
-	' des boissons',
 	' un ordinateur',
 	' des pizzas',
 	' un chat',
-	' un chien',
     ]
 
     # res = theme_creator.create_theme()
