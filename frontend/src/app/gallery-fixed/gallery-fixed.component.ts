@@ -85,14 +85,14 @@ export class GalleryFixedComponent implements OnInit {
       baseNode.rotation.y = 2 * Math.PI * (i / 6);
 
       const border = new THREE.Mesh(
-        new THREE.BoxGeometry(3.2, 2.2, 0.005),
+        new THREE.BoxGeometry(2.2, 3.2, 0.005),
         new THREE.MeshStandardMaterial({ color: 0x303030 })
       );
       border.position.z = -4;
       baseNode.add(border);
 
       const artwork = new THREE.Mesh(
-        new THREE.BoxGeometry(3, 2, 0.01),
+        new THREE.BoxGeometry(2, 3, 0.01),
         new THREE.MeshStandardMaterial({ map: image })
       );
       artwork.position.z = -4;
@@ -117,7 +117,7 @@ export class GalleryFixedComponent implements OnInit {
       rightArrow.userData = i;
       rightArrow.position.set(-2.9, 0, -4);
       baseNode.add(rightArrow);
-
+      baseNode.position.y = 0.5;
       this.root.add(baseNode);
     }
 
@@ -259,7 +259,7 @@ export class GalleryFixedComponent implements OnInit {
       this.images = imagesData.map((imageData) => {
         const publicUrl = supabase
           .storage
-          .from('photos')
+          .from('edits')
           .getPublicUrl(imageData.name)
 
         return publicUrl.data.publicUrl;
@@ -281,7 +281,7 @@ export class GalleryFixedComponent implements OnInit {
       // List all files in the "photos" bucket
       supabase
         .storage
-        .from('photos')  // "photos" is the name of the bucket
+        .from('edits')  // "photos" is the name of the bucket
         .list('', { limit: 100 })  // Empty string means no specific prefix, so it lists all files
         .then(({ data, error }) => {
           if (error) {

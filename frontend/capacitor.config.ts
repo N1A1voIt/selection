@@ -6,7 +6,14 @@ const config: CapacitorConfig = {
   webDir: 'www/browser',
   android: {
     minWebViewVersion: 22,
-    webContentsDebuggingEnabled: true
-  }
+    webContentsDebuggingEnabled: true,
+    includePlugins: ['@capacitor-community/http']
+  },
+  plugins: {
+    // Enable Cookies plugin for Android
+    CapacitorCookies: {
+      enabled: true,
+    },
+  },
 };
 export default config;
