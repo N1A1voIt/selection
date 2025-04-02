@@ -8,6 +8,7 @@ import {addIcons} from "ionicons";
 import {addCircleOutline, arrowBack} from "ionicons/icons";
 import {query} from "@angular/animations";
 import {GroupService} from "../../services/group.service";
+import {Router} from "@angular/router";
 export interface Users {
   username:string,
   email:string,
@@ -41,7 +42,7 @@ export class CreateGroupPage implements OnInit {
     );
   }
 
-  constructor(private firestore:Firestore,private groupService: GroupService) {
+  constructor(private firestore:Firestore,private groupService: GroupService,private router:Router) {
     addIcons({
       arrowBack,
       addCircleOutline
@@ -119,6 +120,7 @@ export class CreateGroupPage implements OnInit {
       this.groupName = '';
       this.showButtons = false;
       this.users.forEach(user => user.selected = false);
+      this.router.navigate(['/list-group']);
     } catch (error) {
       console.error("Error creating group: ", error);
       alert("Failed to create group. Please try again.");
